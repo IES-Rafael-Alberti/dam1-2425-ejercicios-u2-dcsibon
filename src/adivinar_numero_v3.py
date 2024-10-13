@@ -3,6 +3,16 @@ import random
 import time
 
 
+TITULOS = (
+    "--- SECCIÓN NO DEFINIDA ---",
+    "--- BIENVENIDOS AL JUEGO DE ADIVINAR EL NÚMERO OCULTO ---",
+    "--- MENÚ DE ADIVINA EL NÚMERO OCULTO ---",
+    "--- ADIVINA EL NÚMERO OCULTO EN {intentos} INTENTOS ---",
+    "--- CONFIGURA EL JUEGO DE ADIVINA EL NÚMERO OCULTO ---",
+    "--- CONFIGURACIÓN ACTUAL DE ADIVINA EL NÚMERO OCULTO ---",
+)
+
+
 def limpiar_pantalla():
     """
     Limpia la consola según el sistema operativo.
@@ -21,7 +31,6 @@ def pausa():
 
     También limpia la pantalla después de que el usuario presiona ENTER.
     """
-    input("\nPresione ENTER para continuar...")
     input("\nPresione ENTER para continuar...")
     limpiar_pantalla()
 
@@ -217,6 +226,23 @@ def configurar_intentos() -> int:
     return intentos
 
 
+def mostrar_titulo(seccion: int, intentos: int = 0):
+    """
+    Muestra el título correspondiente a la sección del juego.
+
+    Args:
+        seccion (int): El identificador de la sección. Los valores válidos son de 1 a 5.
+        intentos (int): Número de intentos que puede ser usado en el título si corresponde.
+    """
+    if 0 < seccion < len(TITULOS):
+        if intentos > 0:
+            print(TITULOS[seccion].format(intentos = intentos) + "\n\n")
+        else:
+            print(f"{TITULOS[seccion]}\n\n")
+    else:
+        print(f"{TITULOS[0]}\n\n")
+
+
 def configurar_juego() -> tuple:
     """
     Configura todos los parámetros del juego: rango de números, pistas e intentos.
@@ -225,7 +251,7 @@ def configurar_juego() -> tuple:
         tuple: Mínimo, máximo, número de intentos, valor para "Frío" y valor para "Caliente".
     """
     limpiar_pantalla()
-    print("--- CONFIGURA EL JUEGO DE ADIVINA EL NÚMERO OCULTO ---\n\n")
+    mostrar_titulo(4)
     
     minimo, maximo = configurar_rangos_numeros()
     frio, caliente = configurar_pistas(minimo, maximo)
@@ -246,7 +272,7 @@ def mostrar_configuracion(minimo, maximo, intentos, frio, caliente):
         caliente (int): Diferencia mayor para la pista "Caliente".
     """
     limpiar_pantalla()
-    print(f"--- CONFIGURACIÓN ACTUAL DE ADIVINA EL NÚMERO OCULTO ---\n\n")
+    mostrar_titulo(5)
     print(f"* El número oculto será un número entre {minimo} y {maximo}.")
     print(f"* El número de intentos es {intentos}.")
     print(f"* Pista FRÍO si la diferencia es mayor a {frio}.")
@@ -260,7 +286,7 @@ def mostrar_menu():
     Muestra el menú principal del juego.
     """
     limpiar_pantalla()
-    print(f"--- MENÚ DE ADIVINA EL NÚMERO OCULTO ---\n\n")
+    mostrar_titulo(2)
     print("1. Jugar.")
     print("2. Configurar.")
     print("3. Mostrar configuración.")
@@ -311,7 +337,7 @@ def jugar(numero_oculto, intentos, frio, caliente):
         caliente (int): Diferencia máxima para la pista "Caliente".
     """
     limpiar_pantalla()
-    print(f"--- ADIVINA EL NÚMERO OCULTO EN {intentos} INTENTOS ---\n\n")
+    mostrar_titulo(3, intentos)
     numero_adivinado, intentos_realizados = adivina_el_numero(numero_oculto, intentos, frio, caliente)
 
     if numero_adivinado:
@@ -342,7 +368,7 @@ def main():
     Configura los parámetros iniciales y gestiona el bucle principal del menú.
     """
     limpiar_pantalla()
-    print("--- BIENVENIDOS AL JUEGO DE ADIVINAR EL NÚMERO OCULTO ---\n\n")
+    mostrar_titulo(1)
     time.sleep(2)
 
     # Configuración inicial por defecto

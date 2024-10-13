@@ -1,11 +1,6 @@
 import pytest
 
-from src.adivinar_numero_v3 import (
-    evaluar_distancia, generar_pista, mostrar_pista,
-    adivina_el_numero, comprobar_numero_entero, pedir_numero_usuario,
-    configurar_rangos_numeros, configurar_pistas, configurar_intentos,
-    genera_numero_oculto
-)
+from src.adivinar_numero_v3 import *
 
 ###################################################################################################
 
@@ -192,3 +187,84 @@ def test_configurar_intentos(mock_input, expected, monkeypatch):
     
     # Probar si los intentos son configurados correctamente
     assert configurar_intentos() == expected
+
+###################################################################################################
+
+@pytest.mark.parametrize(
+    "seccion, intentos, expected_output",
+    [
+        (1, 0, "--- BIENVENIDOS AL JUEGO DE ADIVINAR EL NÚMERO OCULTO ---\n\n\n"),
+        (2, 0, "--- MENÚ DE ADIVINA EL NÚMERO OCULTO ---\n\n\n"),
+        (3, 5, "--- ADIVINA EL NÚMERO OCULTO EN 5 INTENTOS ---\n\n\n"),
+        (0, 0, "--- SECCIÓN NO DEFINIDA ---\n\n\n"),  # Sección no válida, debería usar el título por defecto
+        (3, 0, "--- ADIVINA EL NÚMERO OCULTO EN {intentos} INTENTOS ---\n\n\n"),  # Sección con intentos en 0, no formatea
+        (10, 0, "--- SECCIÓN NO DEFINIDA ---\n\n\n"), # Sección fuera de rango, debería usar el título por defecto
+    ]
+)
+def test_mostrar_titulo(capsys, seccion, intentos, expected_output):
+    # Ejecutar la función mostrar_titulo
+    mostrar_titulo(seccion, intentos)
+    
+    # Capturar la salida impresa
+    captured = capsys.readouterr()
+    
+    # Verificar que la salida sea la esperada
+    assert captured.out == expected_output
+
+###################################################################################################
+
+@pytest.mark.parametrize(
+    "opcion, expected",
+    [
+        (1, True),    # Opción válida
+        (4, True),    # Opción válida
+        (0, False),   # Opción inválida (menor a 1)
+        (5, False),   # Opción inválida (mayor a 4)
+    ]
+)
+def test_comprobar_opcion(opcion, expected):
+    assert comprobar_opcion(opcion) == expected
+
+###################################################################################################
+
+@pytest.mark.parametrize(
+    "mock_inputs, expected",
+    [
+        (['0', '1'], 1),    # Entrada inválida seguida de entrada válida
+        (['abc', '2'], 2),  # Entrada no numérica seguida de entrada válida
+        (['4'], 4),         # Entrada válida en el primer intento
+    ]
+)
+def test_elegir_opcion_menu(mock_inputs, expected, monkeypatch):
+    # Simular las entradas del usuario
+    inputs_iter = iter(mock_inputs)
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs_iter))
+    
+    # Probar si la opción es configurada correctamente
+    assert elegir_opcion_menu() == expected
+
+###################################################################################################
+
+def test_mostrar_menu(capsys):
+    mostrar_menu()
+    captured = capsys.readouterr()
+    expected_output = "--- MENÚ DE ADIVINA EL NÚMERO OCULTO ---\n\n\n1. Jugar.\n2. Configurar.\n3. Mostrar configuración.\n4. Salir.\n\n"
+    assert captured.out == expected_output
+
+###################################################################################################
+
+@pytest.mark.parametrize(
+    "mock_inputs, expected",
+    [
+        (['0', '200', '30', '10', '5'], (0, 200, 5, 30, 10)),  # Rango válido, pistas válidas, intentos válidos
+        (['1', '500', '50', '20', '7'], (1, 500, 7, 50, 20)),  # Otro set válido
+    ]
+)
+def test_configurar_juego(mock_inputs, expected, monkeypatch):
+    # Simular entradas para rango, pistas e intentos
+    inputs_iter = iter(mock_inputs)
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs_iter))
+    
+    # Probar si el juego es configurado correctamente
+    assert configurar_juego() == expected
+
