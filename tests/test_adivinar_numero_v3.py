@@ -7,27 +7,13 @@ from src.adivinar_numero_v3 import *
 @pytest.mark.parametrize(
     "numero, numero_oculto, frio, caliente, expected",
     [
-        (50, 100, 30, 10, "* FRÍO, FRÍO,"),
-        (85, 100, 30, 10, "* CALIENTE, CALIENTE,"),
-        (99, 100, 30, 10, "* TE QUEMAS,"),
+        (50, 100, 30, 10, 0),
+        (85, 100, 30, 10, 1),
+        (99, 100, 30, 10, 2),
     ]
 )
 def test_evaluar_distancia(numero, numero_oculto, frio, caliente, expected):
-    assert evaluar_distancia(numero, numero_oculto, frio, caliente) == expected
-
-###################################################################################################
-
-@pytest.mark.parametrize(
-    "numero, numero_oculto, intentos, expected",
-    [
-        (50, 100, 5, "el número oculto es MAYOR... ¡te quedan 5 intentos!\n"),
-        (90, 100, 3, "el número oculto es MAYOR... ¡te quedan 3 intentos!\n"),
-        (98, 100, 2, "el número oculto es MAYOR... ¡te quedan 2 intentos!\n"),
-        (150, 100, 1, "el número oculto es MENOR... ¡te quedan 1 intentos!\n")
-    ]
-)
-def test_generar_pista(numero, numero_oculto, intentos, expected):
-    assert generar_pista(numero, numero_oculto, intentos) == expected
+    assert evaluar_diferencia(numero, numero_oculto, frio, caliente) == expected
 
 ###################################################################################################
 
@@ -37,7 +23,7 @@ def test_generar_pista(numero, numero_oculto, intentos, expected):
         (50, 100, 5, 20, 10, "\n* FRÍO, FRÍO, el número oculto es MAYOR... ¡te quedan 5 intentos!\n\n"),
         (85, 100, 3, 20, 10, "\n* CALIENTE, CALIENTE, el número oculto es MAYOR... ¡te quedan 3 intentos!\n\n"),
         (98, 100, 2, 20, 10, "\n* TE QUEMAS, el número oculto es MAYOR... ¡te quedan 2 intentos!\n\n"),
-        (150, 100, 1, 20, 10, "\n* FRÍO, FRÍO, el número oculto es MENOR... ¡te quedan 1 intentos!\n\n"),
+        (150, 100, 1, 20, 10, "\n* FRÍO, FRÍO, el número oculto es MENOR... ¡te queda 1 intento!\n\n"),
     ]
 )
 def test_mostrar_pista(capsys, numero, numero_oculto, intentos, frio, caliente, expected_output):

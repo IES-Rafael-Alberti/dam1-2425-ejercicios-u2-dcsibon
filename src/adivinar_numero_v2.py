@@ -17,31 +17,49 @@ def pausa():
     limpiar_pantalla()
 
 
-def evaluar_distancia(numero: int, numero_oculto: int, frio: int, caliente: int) -> str:
-    """Evalúa la distancia entre el número oculto y el ingresado y devuelve el estado."""
+def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int) -> int:
+    """
+    Evalúa la distancia entre el número oculto y el ingresado, y devuelve un código numérico
+    basado en la cercanía.
+    """
     diferencia = abs(numero_oculto - numero)
     
     if diferencia > frio:
-        return "* FRÍO, FRÍO,"
+        return 0  # Frío
     elif diferencia > caliente:
-        return "* CALIENTE, CALIENTE,"
+        return 1  # Caliente
     else:
-        return "* TE QUEMAS,"
-
-
-def generar_pista(numero: int, numero_oculto: int, intentos: int) -> str:
-    """Genera un mensaje de pista indicando si el número oculto es mayor o menor."""
-    if numero_oculto > numero:
-        return f"el número oculto es MAYOR... ¡te quedan {intentos} intentos!\n"
-    else:
-        return f"el número oculto es MENOR... ¡te quedan {intentos} intentos!\n"
+        return 2  # Te Quemas
 
 
 def mostrar_pista(numero: int, numero_oculto: int, intentos: int, frio: int, caliente: int):
-    """Muestra la pista basada en la diferencia entre el número y el número oculto."""
-    pista = generar_pista(numero, numero_oculto, intentos)
-    estado_calor = evaluar_distancia(numero, numero_oculto, frio, caliente)
-    print(f"\n{estado_calor} {pista}")
+    """
+    Muestra una pista combinando la distancia (frío, caliente, te quemas) y si el número oculto
+    es mayor o menor.
+    """
+    diferencia_code = evaluar_diferencia(numero, numero_oculto, frio, caliente)
+
+    # Determinamos el mensaje según el código de diferencia
+    if diferencia_code == 0:
+        pista = "* FRÍO, FRÍO,"
+    elif diferencia_code == 1:
+        pista = "* CALIENTE, CALIENTE,"
+    else:
+        pista = "* TE QUEMAS,"
+
+    pista += " el número oculto es "
+
+    if numero_oculto > numero:
+        pista += "MAYOR... "
+    else:
+        pista += "MENOR... "
+
+    if intentos > 1:
+        pista += f"¡te quedan {intentos} intentos!\n"
+    else:
+        pista += f"¡te queda {intentos} intento!\n"
+
+    print(f"\n{pista}")
 
 
 def adivina_el_numero(numero_oculto: int, total_intentos: int, frio: int, caliente: int):

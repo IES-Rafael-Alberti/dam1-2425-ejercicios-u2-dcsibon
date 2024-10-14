@@ -35,9 +35,10 @@ def pausa():
     limpiar_pantalla()
 
 
-def evaluar_distancia(numero: int, numero_oculto: int, frio: int, caliente: int) -> str:
+def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int) -> int:
     """
-    Evalúa la distancia entre el número oculto y el ingresado, y devuelve una pista basada en la cercanía.
+    Evalúa la distancia entre el número oculto y el ingresado, y devuelve un código numérico
+    basado en la cercanía.
 
     Args:
         numero (int): Número ingresado por el usuario.
@@ -46,39 +47,35 @@ def evaluar_distancia(numero: int, numero_oculto: int, frio: int, caliente: int)
         caliente (int): Diferencia máxima para considerar la pista como "Caliente".
 
     Returns:
-        str: Mensaje indicando si el número está "Frío", "Caliente" o "Te Quemas".
+        int: 
+            - 0 si el número está "Frío".
+            - 1 si el número está "Caliente".
+            - 2 si el número está "Te Quemas".
+    
+    Ejemplos:
+        >>> evaluar_diferencia(50, 100, 15, 5)
+        0  # Frío
+        
+        >>> evaluar_diferencia(95, 100, 15, 5)
+        1  # Caliente
+        
+        >>> evaluar_diferencia(98, 100, 15, 5)
+        2  # Te Quemas
     """
     diferencia = abs(numero_oculto - numero)
     
     if diferencia > frio:
-        return "* FRÍO, FRÍO,"
+        return 0  # Frío
     elif diferencia > caliente:
-        return "* CALIENTE, CALIENTE,"
+        return 1  # Caliente
     else:
-        return "* TE QUEMAS,"
-
-
-def generar_pista(numero: int, numero_oculto: int, intentos: int) -> str:
-    """
-    Genera una pista indicando si el número oculto es mayor o menor que el número ingresado.
-
-    Args:
-        numero (int): Número ingresado por el usuario.
-        numero_oculto (int): Número que debe ser adivinado.
-        intentos (int): Cantidad de intentos restantes.
-
-    Returns:
-        str: Mensaje indicando si el número oculto es mayor o menor, y cuántos intentos quedan.
-    """
-    if numero_oculto > numero:
-        return f"el número oculto es MAYOR... ¡te quedan {intentos} intentos!\n"
-    else:
-        return f"el número oculto es MENOR... ¡te quedan {intentos} intentos!\n"
+        return 2  # Te Quemas
 
 
 def mostrar_pista(numero: int, numero_oculto: int, intentos: int, frio: int, caliente: int):
     """
-    Muestra una pista combinando la distancia y si el número oculto es mayor o menor.
+    Muestra una pista combinando la distancia (frío, caliente, te quemas) y si el número oculto
+    es mayor o menor.
 
     Args:
         numero (int): Número ingresado por el usuario.
@@ -87,9 +84,29 @@ def mostrar_pista(numero: int, numero_oculto: int, intentos: int, frio: int, cal
         frio (int): Diferencia máxima para considerar la pista como "Frío".
         caliente (int): Diferencia máxima para considerar la pista como "Caliente".
     """
-    pista = generar_pista(numero, numero_oculto, intentos)
-    estado_calor = evaluar_distancia(numero, numero_oculto, frio, caliente)
-    print(f"\n{estado_calor} {pista}")
+    diferencia_code = evaluar_diferencia(numero, numero_oculto, frio, caliente)
+
+    # Determinamos el mensaje según el código de diferencia
+    if diferencia_code == 0:
+        pista = "* FRÍO, FRÍO,"
+    elif diferencia_code == 1:
+        pista = "* CALIENTE, CALIENTE,"
+    else:
+        pista = "* TE QUEMAS,"
+
+    pista += " el número oculto es "
+
+    if numero_oculto > numero:
+        pista += "MAYOR... "
+    else:
+        pista += "MENOR... "
+
+    if intentos > 1:
+        pista += f"¡te quedan {intentos} intentos!\n"
+    else:
+        pista += f"¡te queda {intentos} intento!\n"
+
+    print(f"\n{pista}")
 
 
 def adivina_el_numero(numero_oculto: int, total_intentos: int, frio: int, caliente: int):
