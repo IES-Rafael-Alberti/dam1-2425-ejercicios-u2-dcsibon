@@ -75,7 +75,7 @@ def pedir_respuesta(msj: str) -> str:
     while not respuesta_correcta:
         try:
             respuesta = input(msj).replace(" ", "").upper()
-            if respuesta not in "SN":
+            if respuesta == "" or not respuesta in "SN":
                 raise ValueError("Respuesta incorrecta")
         except ValueError as e:
             print(f"*ERROR* {e}")
