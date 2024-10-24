@@ -19,6 +19,8 @@ def main():
 """
     mapa = [["0" for _ in range(5)] for i in range(5)]
 
+    print(1)
+
 saludo = "hola"
 
 if __name__ == "__main__":
