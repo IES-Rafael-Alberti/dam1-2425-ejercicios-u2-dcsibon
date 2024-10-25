@@ -1,15 +1,17 @@
 
 import os
 
+MAXIMO_VALOR = 20
 
-def borrarConsola():
+
+def borrar_consola():
     if os.name == "posix":
         os.system ("clear")
     elif os.name == "ce" or os.name == "nt" or os.name == "dos":
         os.system ("cls")
 
 
-def piramideDecreciente(num: int):
+def piramide_decreciente(num: int):
     res = ""
     while num >= 0:
         cont = 1
@@ -26,7 +28,7 @@ def piramideDecreciente(num: int):
     return res
 
 
-def piramideCreciente(num: int):
+def piramide_creciente(num: int):
     res = ""
     numFila = 1
     while numFila <= num:
@@ -43,8 +45,8 @@ def piramideCreciente(num: int):
 
 
 def piramide(num: int):
-    res = piramideDecreciente(num)
-    res += piramideCreciente(num)
+    res = piramide_decreciente(num)
+    res += piramide_creciente(num)
     return res
 
 
@@ -57,8 +59,8 @@ def pedir_numero(msj: str) -> int:
             num = int(input(msj).strip())
             if num < 0:
                 raise ValueError("El número debe ser positivo")
-            if num > 100:
-                raise ValueError("El número debe estar entre el 0 y el 100")
+            if num > MAXIMO_VALOR:
+                raise ValueError(f"El número debe estar entre el 0 y el {MAXIMO_VALOR}")
         except ValueError as e:
             if num is None:
                 print("*ERROR* No es un número entero. Inténtelo otra vez!")
@@ -86,19 +88,18 @@ def pedir_respuesta(msj: str) -> str:
 
 
 def main():
-
+    borrar_consola()
     repetir = True
-    while repetir:
-        borrarConsola()
 
+    while repetir:
         num = pedir_numero("Introduzca un número: ")
+        borrar_consola()
         
         print("\nSu pirámide de sumas es la siguiente:\n\n" + piramide(num))
 
         repetir = pedir_respuesta("¿Quiere hacer otra pirámide? (s/n) ")
+        borrar_consola()
 
-
-    borrarConsola()
     print("\n\nBye, bye!!\n\n")
     
 

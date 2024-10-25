@@ -2,7 +2,7 @@
 import os
 
 
-def borrarConsola():
+def borrar_consola():
     """
     Limpia la consola
     """
@@ -103,18 +103,18 @@ def pedir_respuesta(msj: str) -> str:
 
 
 def main():
-
+    borrar_consola()
     repetir = True
+
     while repetir:
-        borrarConsola()
-
         num = pedir_numero("Introduzca un número: ")
-        
+        borrar_consola()
+
         print("\nSu pirámide de sumas es la siguiente:\n\n" + piramide(num))
-
+        
         repetir = pedir_respuesta("¿Quiere hacer otra pirámide? (s/n) ")
+        borrar_consola()
 
-    borrarConsola()
     print("\n\nBye, bye!!\n\n")
     
 
