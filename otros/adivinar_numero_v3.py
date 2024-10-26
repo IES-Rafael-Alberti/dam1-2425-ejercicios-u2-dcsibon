@@ -25,14 +25,19 @@ def limpiar_pantalla():
         os.system('clear')
 
 
-def pausa():
+def pausa(tiempo: int, tecla_enter = False, limpiar_pantalla = True):
     """
     Realiza una pausa hasta que el usuario presione ENTER.
 
     También limpia la pantalla después de que el usuario presiona ENTER.
     """
-    input("\nPresione ENTER para continuar...")
-    limpiar_pantalla()
+    if tecla_enter:
+        input("\nPresione ENTER para continuar...")
+    elif tiempo > 0:
+        time.sleep(tiempo)
+    
+    if limpiar_pantalla:
+        limpiar_pantalla()
 
 
 def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int) -> int:
@@ -295,7 +300,7 @@ def mostrar_configuracion(minimo, maximo, intentos, frio, caliente):
     print(f"* Pista FRÍO si la diferencia es mayor a {frio}.")
     print(f"* Pista CALIENTE si la diferencia es mayor a {caliente}.")
     print(f"* Pista TE QUEMAS si la diferencia es menor.")
-    pausa()
+    pausa(tecla_enter = True)
 
 
 def mostrar_menu():
@@ -362,7 +367,7 @@ def jugar(numero_oculto, intentos, frio, caliente):
     else:
         print(f"\nGAME OVER - ¡Otra vez será! (#{numero_oculto}#)")
     
-    pausa()
+    pausa(tecla_enter = True)
 
 
 def genera_numero_oculto(minimo: int, maximo: int) -> int:
@@ -386,7 +391,7 @@ def main():
     """
     limpiar_pantalla()
     mostrar_titulo(1)
-    time.sleep(2)
+    pausa(2)
 
     # Configuración inicial por defecto
     minimo = 0
