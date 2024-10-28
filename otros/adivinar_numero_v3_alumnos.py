@@ -16,7 +16,7 @@ def limpiar_pantalla():
     """
     Limpia la consola según el sistema operativo.
 
-    En sistemas Windows utiliza el comando 'cls', en Linux o macOS utiliza 'clear'.
+    En sistemas Windows utiliza el comando 'cls', en Linux o macOS utiliza 'clear' (os.name == "posix").
     """
     try:
 		# Debe funcionar en todos los sistemas operativos
@@ -37,7 +37,9 @@ def pausa(tiempo = 0, tecla_enter = False, limpiar = True):
         limpiar (bool, opcional): Si es True, limpia la pantalla después de la pausa.
 
     """
-    # time.sleep()
+    # Desarrolla esta función y ejecute una pausa de un tiempo en segundos con time.sleep()
+    # o una pausa esperando a que el usuario "\nPresione ENTER para continuar..."
+    # Además, dependiendo del parámetro opcional limpiar debe limpiar la consola o no
 
 
 def mostrar_titulo(seccion: int, intentos: int = 0):
@@ -56,7 +58,8 @@ def mostrar_titulo(seccion: int, intentos: int = 0):
     #else:
     #    print(f"{TITULOS[0]}\n\n")
 	#
-	# Hacer lo mismo pero útilizando try-except para controlar si la seccion está fuera de rango
+	# Hacer lo mismo que el código comentado, pero útilizando try-except 
+	# para controlar si la seccion está fuera de rango
 
 
 def mostrar_error(msjError: str):
@@ -113,9 +116,21 @@ def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, cal
     
     Returns:
         str: Frase con la pista para el juego.
+
+    Note:
+        La función retorna uno de los siguientes mensajes según la proximidad del número ingresado al número oculto:
+
+        - "* FRÍO, FRÍO, el número oculto es MENOR... ¡te quedan N intentos!\n"
+        - "* FRÍO, FRÍO, el número oculto es MAYOR... ¡te quedan N intentos!\n"
+        - "* CALIENTE, CALIENTE, el número oculto es MENOR... ¡te quedan N intentos!\n"
+        - "* CALIENTE, CALIENTE, el número oculto es MAYOR... ¡te quedan N intentos!\n"
+        - "* TE QUEMAS, el número oculto es MENOR... ¡te quedan N intentos!\n"
+        - "* TE QUEMAS, el número oculto es MAYOR... ¡te quedan N intentos!\n"       
+
+        En los mensajes, "N" representa el número de intentos restantes.   
     """
 	# Realizar la función según la documentación que observáis
-	# Debéis hacer una llamada a la función evaluar_diferencia()
+	# Daros cuenta que debéis hacer una llamada a la función evaluar_diferencia()
 
 
 def pedir_numero_usuario(mensaje: str, minimo: int = None, maximo: int = None) -> int:
@@ -293,10 +308,10 @@ def mostrar_menu():
     """
 	# Corregir posibles errores...
     mostrar_titulo()
-    print("1. Jugar.")
-    print("2. Configurar.")
-    print("3. Mostrar configuración.")
-    print("4. Salir.\n")
+    input("1. Jugar.")
+    input("2. Configurar.")
+    input("3. Mostrar configuración.")
+    input("4. Salir.\n")
 	limpiar_pantalla()
 
 
@@ -327,20 +342,27 @@ def elegir_opcion_menu() -> int:
 
 
 
-def jugar(numero_oculto, intentos, frio, caliente):
+def jugar(numero_oculto: int, intentos: int, frio: int, caliente: int):
     """
-    Gestiona el proceso del juego de adivinar el número oculto y muestra los resultados.
+    Gestiona el proceso del juego de adivinar el número oculto y muestra los resultados al finalizar.
 
     Args:
-        numero_oculto (int): Número que debe ser adivinado.
-        intentos (int): Número de intentos disponibles.
-        frio (int): Diferencia máxima para la pista "Frío".
-        caliente (int): Diferencia máxima para la pista "Caliente".
+        numero_oculto (int): Número que debe ser adivinado por el jugador.
+        minimo (int): El límite inferior del rango de números posibles.
+        maximo (int): El límite superior del rango de números posibles.
+        intentos (int): Número máximo de intentos permitidos para el jugador.
+        frio (int): Diferencia mínima para que se active la pista "Frío".
+        caliente (int): Diferencia mínima para que se active la pista "Caliente".
+
+    Note:
+        - Un mensaje de éxito si el jugador adivina el número, indicando los intentos utilizados.
+        - Un mensaje de fin de juego si el jugador no logra adivinar el número, mostrando el número oculto.
     """
 	# Mostrar el mensaje correspondiente al final del juego:
 	# - Si lo adivinó => "\n¡Bravo! ¡Lo conseguiste en N intentos!"
 	# - Si no lo consiguió => "\nGAME OVER - ¡Otra vez será! (#XX#)"
 	# Donde N es el númnero de intentos en el que consiguió acertarlo y XX el número oculto.
+	# Recuerda que debes mostrar dichos mensajes hasta que el usuario presione ENTER...
 	# También debes corregir posibles errores...
     limpiar_pantalla()
     mostrar_titulo(3, intentos)
@@ -349,24 +371,33 @@ def jugar(numero_oculto, intentos, frio, caliente):
     pausa
 
 
-def genera_numero_oculto(minimo: int, maximo: int) -> int:
-    """
-    Genera un número oculto aleatorio dentro de un rango determinado.
-
-    Args:
-        minimo (int): El valor mínimo posible.
-        maximo (int): El valor máximo posible.
-
-    Returns:
-        int: Número generado aleatoriamente entre mínimo y máximo.
-    """
+def genera_numero_oculto():
+	# Crear la documentación recomendada para esta función
     return random.randint(minimo, maximo)
     
 
 def main():
     """
     Función principal que ejecuta el flujo completo del juego de adivinar el número oculto.
-    Configura los parámetros iniciales y gestiona el bucle principal del menú.
+    
+    Configura los parámetros iniciales, muestra la configuración actual, y gestiona el bucle principal del menú 
+    para permitir al usuario jugar, configurar el juego, mostrar la configuración actual del juego o salir.
+
+    Note:
+        1. Limpia la pantalla, muestra el título de bienvenida y hace una pausa inicial.
+        2. Configura los parámetros iniciales del juego:
+            - minimo: Límite inferior del rango de números (por defecto 0).
+            - maximo: Límite superior del rango de números (por defecto 100).
+            - frio: Diferencia mínima para la pista "Frío" (por defecto 15).
+            - caliente: Diferencia mínima para la pista "Caliente" (por defecto 5).
+            - intentos: Número máximo de intentos (por defecto 5).
+        3. Muestra la configuración actual del juego y pide presionar una tecla para continuar...
+        4. Permite al usuario interactuar mediante un menú:
+            - Opción 1: Jugar e intentar adivinar el número oculto.
+            - Opción 2: Configurar los parámetros del juego.
+            - Opción 3: Visualizar la configuración actual del juego.
+            - Opción 4: Salir del juego.
+        5. Finaliza el juego mostrando un mensaje de despedida.
     """
     # Debe limpiar la pantalla, mostrar el título de la sección correspondiente y hacer una pausa de 2 segundos
     # Corrige los posibles errores...

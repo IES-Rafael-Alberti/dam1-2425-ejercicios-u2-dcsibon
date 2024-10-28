@@ -520,7 +520,6 @@ def genera_numero_oculto(minimo: int, maximo: int) -> int:
     Returns:
         int: Número generado aleatoriamente entre mínimo y máximo.
     """
-    # Crear la documentación recomendada para esta función
     return random.randint(minimo, maximo)
     
 
