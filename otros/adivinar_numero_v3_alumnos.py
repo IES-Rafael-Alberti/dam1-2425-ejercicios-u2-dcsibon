@@ -299,6 +299,7 @@ def mostrar_menu():
     print("4. Salir.\n")
 	limpiar_pantalla()
 
+
 def comprobar_opcion()
 	# Crear la documentación recomendada para esta función
     return 1 <= opcion <= 4

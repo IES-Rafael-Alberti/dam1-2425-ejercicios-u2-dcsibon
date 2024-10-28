@@ -461,7 +461,7 @@ def elegir_opcion_menu() -> int:
     return opcion
 
 
-def jugar(numero_oculto, intentos, frio, caliente):
+def jugar(numero_oculto, minimo, maximo, intentos, frio, caliente):
     """
     Gestiona el proceso del juego de adivinar el número oculto y muestra los resultados.
 
@@ -529,7 +529,7 @@ def main():
 
         if opcion == 1:
             numero_oculto = genera_numero_oculto(minimo, maximo)
-            jugar(numero_oculto, intentos, frio, caliente)
+            jugar(numero_oculto, minimo, maximo, intentos, frio, caliente)
         elif opcion == 2:
             minimo, maximo, intentos, frio, caliente = configurar_juego()
         elif opcion == 3:
