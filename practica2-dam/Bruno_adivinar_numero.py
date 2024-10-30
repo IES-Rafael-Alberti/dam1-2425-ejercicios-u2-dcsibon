@@ -9,20 +9,29 @@ TITULOS = (
     "--- ADIVINA EL NÚMERO OCULTO EN {intentos} INTENTOS ---",
     "--- CONFIGURA EL JUEGO DE ADIVINA EL NÚMERO OCULTO ---",
     "--- CONFIGURACIÓN ACTUAL DE ADIVINA EL NÚMERO OCULTO ---",
+
+    
 )
 
+import os
 
 def limpiar_pantalla():
     """
     Limpia la consola según el sistema operativo.
-
-    En sistemas Windows utiliza el comando 'cls', en Linux o macOS utiliza 'clear' (os.name == "posix").
+    En sistemas Windows utiliza el comando 'cls', en Linux o macOS utiliza 'clear'.
     """
+
+    comando = "cls" if os.name == "nt" else "clear"
+    
     try:
-		# Debe funcionar en todos los sistemas operativos
+
         os.system(comando)
     except Exception as e:
         mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
+
+def mostrar_error(mensaje):
+    """Muestra un mensaje de error en la pantalla."""
+    print(f"ERROR: {mensaje}")
 
 
 def pausa(tiempo = 0, tecla_enter = False, limpiar = True):
@@ -333,12 +342,12 @@ def elegir_opcion_menu() -> int:
     while not opcion_correcta:
         mostrar_menu()
 
-        opcion = pedir_numero_usuario("Elije => ")
+		opcion = pedir_numero_usuario("Elije => ")
             
-        opcion_correcta = comprobar_opcion(opcion)
+		opcion_correcta = comprobar_opcion(opcion)
 	
-        if not opcion_correcta:
-            mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
+		if not opcion_correcta:
+			mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
 
 
 

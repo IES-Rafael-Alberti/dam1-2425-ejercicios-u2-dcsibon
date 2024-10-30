@@ -1,6 +1,7 @@
 # Importa los paquetes que necesites.
 # Para mostrar cualquier ERROR debes usar la función mostrar_error(), no hagas print directamente.
-
+import os
+import time
 
 TITULOS = (
     "--- SECCIÓN NO DEFINIDA ---",
@@ -12,12 +13,13 @@ TITULOS = (
 )
 
 
-def limpiar_pantalla():
+def limpiar_pantalla(comando):
     """
     Limpia la consola según el sistema operativo.
 
     En sistemas Windows utiliza el comando 'cls', en Linux o macOS utiliza 'clear' (os.name == "posix").
     """
+    comando = "cls"
     try:
 		# Debe funcionar en todos los sistemas operativos
         os.system(comando)
@@ -40,6 +42,16 @@ def pausa(tiempo = 0, tecla_enter = False, limpiar = True):
     # Desarrolla esta función y ejecute una pausa de un tiempo en segundos con time.sleep()
     # o una pausa esperando a que el usuario "\nPresione ENTER para continuar..."
     # Además, dependiendo del parámetro opcional limpiar debe limpiar la consola o no
+    if tiempo > 0: 
+        time.sleep(tiempo)
+    if tecla_enter == True and tiempo == 0:
+        input("Presione ENTER para continuar...")
+    if limpiar == True:
+        os.system
+
+
+
+
 
 
 def mostrar_titulo(seccion: int, intentos: int = 0):
@@ -62,6 +74,10 @@ def mostrar_titulo(seccion: int, intentos: int = 0):
 	# para controlar si la seccion está fuera de rango
 
 
+
+
+
+
 def mostrar_error(msjError: str):
     """Muestra un mensaje de error en la consola y pausa la ejecución.
 
@@ -70,6 +86,7 @@ def mostrar_error(msjError: str):
     """
     print("\n*ERROR* " + str(msjError))
     pausa(1)
+
 
 
 def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int) -> int:
@@ -100,7 +117,16 @@ def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int
         2  # Te Quemas
     """
 	# Realizar la función según la documentación que observáis
+numero = ""
+numero_oculto = ""
 
+diferencia = abs(numero - numero_oculto)
+if diferencia 
+    return "0"
+if diferencia 
+    return "1"
+else:
+    return "2"
 
 def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, caliente: int) -> str:
     """
@@ -131,6 +157,18 @@ def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, cal
     """
 	# Realizar la función según la documentación que observáis
 	# Daros cuenta que debéis hacer una llamada a la función evaluar_diferencia()
+    resultado = evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int)
+    if resultado == 0:
+        forma = "FRÍO"
+    if resultado == 1:
+        forma = "CALIENTE"
+    if resultado == 2:
+        forma = "TE QUEMAS"
+
+    if numero > numero_oculto
+
+
+    else:
 
 
 def pedir_numero_usuario(mensaje: str, minimo: int = None, maximo: int = None) -> int:
@@ -180,8 +218,16 @@ def adivina_el_numero(numero_oculto: int, total_intentos: int, minimo: int, maxi
     # Utiliza pedir_numero_usuario("¿Qué número es? ", minimo, maximo)
     # Muestra la pista con obtener_pista() si el número introducido no es el oculto (obtener_pista()).
     # La función debe retornar si el número fue adivinado y los intentos realizados.
+    N = intentos_realizados
+    numero = pedir_numero_usuario(mensaje: str, minimo: int = None, maximo: int = None) 
 
 
+    if numero == numero_oculto:
+        print(f"Felicidades, lo has conseguido en {N} intentos")
+    if numero > numero_oculto:
+        print(f"El número es mayor, te quedan {N} intentos.")
+    if numero < numero_oculto:
+        print(f"El número es menor, te quedan {N} intentos.")
     return numero_adivinado, intentos_realizados
 
 
@@ -203,6 +249,8 @@ def configurar_rangos_numeros() -> tuple:
     #    (*ERROR* El valor mínimo no puede ser superior al máximo.)
     # 2. La diferencia entre ambos debe ser igual o superior a 100. 
     #    (*ERROR* El rango del número oculto debe ser igual o superior a 100.)
+
+
 
     return minimo, maximo
 
@@ -315,7 +363,7 @@ def mostrar_menu():
 	limpiar_pantalla()
 
 
-def comprobar_opcion()
+def comprobar_opcion():
 	# Crear la documentación recomendada para esta función
     return 1 <= opcion <= 4
 
@@ -333,12 +381,12 @@ def elegir_opcion_menu() -> int:
     while not opcion_correcta:
         mostrar_menu()
 
-        opcion = pedir_numero_usuario("Elije => ")
+		opcion = pedir_numero_usuario("Elije => ")
             
-        opcion_correcta = comprobar_opcion(opcion)
+		opcion_correcta = comprobar_opcion(opcion)
 	
-        if not opcion_correcta:
-            mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
+		if not opcion_correcta:
+			mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
 
 
 
@@ -371,7 +419,7 @@ def jugar(numero_oculto: int, intentos: int, frio: int, caliente: int):
     pausa
 
 
-def genera_numero_oculto():
+def genera_numero_oculto(random, minimo, maximo):
 	# Crear la documentación recomendada para esta función
     return random.randint(minimo, maximo)
     
@@ -401,6 +449,11 @@ def main():
     """
     # Debe limpiar la pantalla, mostrar el título de la sección correspondiente y hacer una pausa de 2 segundos
     # Corrige los posibles errores...
+    
+    
+    
+    
+    comando = "cls"
 
     minimo = 0
     maximo = 100

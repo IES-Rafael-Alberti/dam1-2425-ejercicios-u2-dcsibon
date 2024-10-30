@@ -16,17 +16,32 @@ TITULOS = (
 )
 
 
-
 def limpiar_pantalla():
     """
     Limpia la consola según el sistema operativo.
 
     En sistemas Windows utiliza el comando 'cls', en Linux o macOS utiliza 'clear' (os.name == "posix").
     """
+    # Una forma:
     try:
         # Debe funcionar en todos los sistemas operativos
+        if os.name == 'posix':
+            os.system('clear')
+        else:
+            os.system('cls')
+    except Exception as e:
+        mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
+
+    # Otra forma:
+    try:
         comando = 'clear' if os.name == 'posix' else 'cls'
         os.system(comando)
+    except Exception as e:
+        mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
+
+    # Otra más:
+    try:
+        os.system('clear' if os.name == 'posix' else 'cls')
     except Exception as e:
         mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
 
@@ -72,6 +87,28 @@ def mostrar_titulo(seccion: int, intentos: int = 0):
 	#
 	# Hacer lo mismo que el código comentado, pero útilizando try-except 
 	# para controlar si la seccion está fuera de rango
+
+    # Una forma:
+    try:
+        if intentos > 0:
+            print(TITULOS[seccion].format(intentos = intentos) + "\n\n")
+        else:
+            print(f"{TITULOS[seccion]}\n\n")
+    except Exception:
+        print(f"{TITULOS[0]}\n\n")
+
+    # Otra forma:
+    try:
+        if intentos > 0:
+            titulo = TITULOS[seccion].format(intentos = intentos)
+        else:
+            titulo = TITULOS[seccion]
+    except Exception:
+        titulo = TITULOS[0]  # Título de error o default si `seccion` está fuera del rango
+
+    print(f"{titulo}\n\n")
+
+    # Otra más:
     try:
         titulo = TITULOS[seccion].format(intentos=intentos) if intentos > 0 else TITULOS[seccion]
     except (IndexError, KeyError):
@@ -418,7 +455,7 @@ def mostrar_configuracion(minimo, maximo, intentos, frio, caliente):
     print(f"* El número de intentos es {intentos}.")
     print(f"* Pista FRÍO si la diferencia es mayor a {frio}.")
     print(f"* Pista CALIENTE si la diferencia es mayor a {caliente}.")
-    print(f"* Pista TE QUEMAS si la diferencia es menor.")
+    print("* Pista TE QUEMAS si la diferencia es menor.")
     pausa(tecla_enter = True)
 
 

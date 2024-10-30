@@ -1,6 +1,7 @@
 # Importa los paquetes que necesites.
 # Para mostrar cualquier ERROR debes usar la función mostrar_error(), no hagas print directamente.
-
+import os
+import random
 
 TITULOS = (
     "--- SECCIÓN NO DEFINIDA ---",
@@ -20,7 +21,7 @@ def limpiar_pantalla():
     """
     try:
 		# Debe funcionar en todos los sistemas operativos
-        os.system(comando)
+        os.system("clr")
     except Exception as e:
         mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
 
@@ -40,6 +41,10 @@ def pausa(tiempo = 0, tecla_enter = False, limpiar = True):
     # Desarrolla esta función y ejecute una pausa de un tiempo en segundos con time.sleep()
     # o una pausa esperando a que el usuario "\nPresione ENTER para continuar..."
     # Además, dependiendo del parámetro opcional limpiar debe limpiar la consola o no
+    tiempo =
+    tecla_enter =
+    if limpiar == True:
+        print(limpiar_pantalla())
 
 
 def mostrar_titulo(seccion: int, intentos: int = 0):
@@ -60,7 +65,16 @@ def mostrar_titulo(seccion: int, intentos: int = 0):
 	#
 	# Hacer lo mismo que el código comentado, pero útilizando try-except 
 	# para controlar si la seccion está fuera de rango
-
+    try:
+        if 0 < seccion < len(TITULOS):
+            if intentos > 0:
+                print(TITULOS[seccion].format(intentos = intentos) + "\n\n")
+            else:
+                print(f"{TITULOS[seccion]}\n\n")
+        else:
+            print(f"{TITULOS[0]}\n\n")
+    except ValueError:
+        print("*ERROR* esta fuera del rango ")
 
 def mostrar_error(msjError: str):
     """Muestra un mensaje de error en la consola y pausa la ejecución.
@@ -100,7 +114,12 @@ def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int
         2  # Te Quemas
     """
 	# Realizar la función según la documentación que observáis
-
+    if numero_oculto > frio :
+        print("frio")
+    elif numero_oculto <= frio and numero_oculto >= caliente:
+        print("caliente")
+    elif numero_oculto < caliente:
+        print("te quemas!!!!")
 
 def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, caliente: int) -> str:
     """
@@ -273,9 +292,9 @@ def configurar_juego() -> tuple:
     limpiar_pantalla()
     mostrar_titulo(4)
     
-    minimo, maximo = 
-    frio, caliente = 
-    intentos = 
+    minimo, maximo = mostrar_configuracion()
+    frio, caliente = mostrar_configuracion()
+    intentos = mostrar_configuracion()
 
     return minimo, maximo, intentos, frio, caliente
 
@@ -315,7 +334,7 @@ def mostrar_menu():
 	limpiar_pantalla()
 
 
-def comprobar_opcion()
+def comprobar_opcion():
 	# Crear la documentación recomendada para esta función
     return 1 <= opcion <= 4
 
@@ -333,12 +352,12 @@ def elegir_opcion_menu() -> int:
     while not opcion_correcta:
         mostrar_menu()
 
-        opcion = pedir_numero_usuario("Elije => ")
+		opcion = pedir_numero_usuario("Elije => ")
             
-        opcion_correcta = comprobar_opcion(opcion)
+		opcion_correcta = comprobar_opcion(opcion)
 	
-        if not opcion_correcta:
-            mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
+		if not opcion_correcta:
+			mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
 
 
 
@@ -419,9 +438,9 @@ def main():
             numero_oculto = genera_numero_oculto()
             jugar(numero_oculto, intentos, frio, caliente)
         elif opcion == 2:
-            minimo, maximo, intentos, frio, caliente = configurar_juego
+            minimo, maximo, intentos, frio, caliente = configurar_juego()
         elif opcion == 3:
-            mostrar_configuracion()
+            mostrar_configuracion(minimo, maximo, intentos, frio, caliente)
         else:
             salir = True
 

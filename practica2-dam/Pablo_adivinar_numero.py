@@ -1,6 +1,8 @@
 # Importa los paquetes que necesites.
 # Para mostrar cualquier ERROR debes usar la función mostrar_error(), no hagas print directamente.
-
+import os
+import time
+import random
 
 TITULOS = (
     "--- SECCIÓN NO DEFINIDA ---",
@@ -20,6 +22,7 @@ def limpiar_pantalla():
     """
     try:
 		# Debe funcionar en todos los sistemas operativos
+        comando = "cls"
         os.system(comando)
     except Exception as e:
         mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
@@ -40,6 +43,13 @@ def pausa(tiempo = 0, tecla_enter = False, limpiar = True):
     # Desarrolla esta función y ejecute una pausa de un tiempo en segundos con time.sleep()
     # o una pausa esperando a que el usuario "\nPresione ENTER para continuar..."
     # Además, dependiendo del parámetro opcional limpiar debe limpiar la consola o no
+    if tiempo > 0:
+        time.sleep(tiempo)
+    elif tecla_enter == True:
+        print("\nPresione ENTER para continuar...")
+    
+    if limpiar == True:
+        limpiar_pantalla()
 
 
 def mostrar_titulo(seccion: int, intentos: int = 0):
@@ -60,6 +70,15 @@ def mostrar_titulo(seccion: int, intentos: int = 0):
 	#
 	# Hacer lo mismo que el código comentado, pero útilizando try-except 
 	# para controlar si la seccion está fuera de rango
+    if seccion < 0 or seccion > len(TITULOS):
+        raise ValueError(f"{TITULOS[0]}\n\n")
+    else:
+        if intentos > 0:
+            print(TITULOS[seccion].format(intentos = intentos) + "\n\n")
+        else:
+            print(f"{TITULOS[seccion]}\n\n")
+
+    
 
 
 def mostrar_error(msjError: str):
@@ -69,7 +88,7 @@ def mostrar_error(msjError: str):
         msjError (str): Mensaje de error que se mostrará al usuario.
     """
     print("\n*ERROR* " + str(msjError))
-    pausa(1)
+    pausa(1, False, False)
 
 
 def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int) -> int:
@@ -100,6 +119,13 @@ def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int
         2  # Te Quemas
     """
 	# Realizar la función según la documentación que observáis
+    if numero > numero_oculto:
+        if numero-numero_oculto >= frio:
+            return 0
+        elif numero-numero_oculto >= caliente:
+            return 1
+        else: 
+            return 2
 
 
 def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, caliente: int) -> str:
@@ -131,7 +157,21 @@ def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, cal
     """
 	# Realizar la función según la documentación que observáis
 	# Daros cuenta que debéis hacer una llamada a la función evaluar_diferencia()
-
+    diferencia = evaluar_diferencia(numero, numero_oculto, frio, caliente)
+    if numero > numero_oculto:
+        if diferencia == 0:
+            return f"* FRÍO, FRÍO, el número oculto es MENOR... ¡te quedan {intentos} intentos!\n"
+        elif diferencia == 1:
+            return f"* CALIENTE, CALIENTE, el número oculto es MENOR... ¡te quedan {intentos} intentos!\n"
+        else:
+            return f"* TE QUEMAS, el número oculto es MENOR... ¡te quedan {intentos} intentos!\n"
+    else:
+        if diferencia == 0:
+            return f"* FRÍO, FRÍO, el número oculto es MAYOR... ¡te quedan {intentos} intentos!\n"
+        elif diferencia == 1:
+            return f"* CALIENTE, CALIENTE, el número oculto es MAYOR... ¡te quedan {intentos} intentos!\n"
+        else:
+            return f"* TE QUEMAS, el número oculto es MAYOR... ¡te quedan {intentos} intentos!\n"
 
 def pedir_numero_usuario(mensaje: str, minimo: int = None, maximo: int = None) -> int:
     """
@@ -180,7 +220,16 @@ def adivina_el_numero(numero_oculto: int, total_intentos: int, minimo: int, maxi
     # Utiliza pedir_numero_usuario("¿Qué número es? ", minimo, maximo)
     # Muestra la pista con obtener_pista() si el número introducido no es el oculto (obtener_pista()).
     # La función debe retornar si el número fue adivinado y los intentos realizados.
+    intentos_realizados = 0
+    numero_adivinado = numero_oculto - 1
+    while(total_intentos > 0 and numero_adivinado != numero_oculto):
+        numero_adivinado = pedir_numero_usuario("¿Qué número es? ", minimo, maximo)
+        total_intentos -= 1
 
+        if numero_adivinado != numero_oculto:
+            print(obtener_pista(numero_adivinado, numero_oculto, total_intentos, frio, caliente))
+        
+        intentos_realizados += 1
 
     return numero_adivinado, intentos_realizados
 
@@ -203,6 +252,15 @@ def configurar_rangos_numeros() -> tuple:
     #    (*ERROR* El valor mínimo no puede ser superior al máximo.)
     # 2. La diferencia entre ambos debe ser igual o superior a 100. 
     #    (*ERROR* El rango del número oculto debe ser igual o superior a 100.)
+
+    minimo = pedir_numero_usuario("Escribe el número mínimo posible: ")
+    maximo = pedir_numero_usuario("Escribe el número máximo posible: ")
+
+    if minimo > maximo:
+        raise ValueError("*ERROR* El valor mínimo no puede ser superior al máximo.")
+
+    if maximo-minimo < 100:
+        raise ValueError("*ERROR* El rango del número oculto debe ser igual o superior a 100.")
 
     return minimo, maximo
 
@@ -234,6 +292,21 @@ def configurar_pistas(minimo: int, maximo: int) -> tuple:
     #    (*ERROR* La diferencia para la pista FRÍO debe estar entre {minimo} y {maximo}!)
     # 4. La diferencia para la pista CALIENTE debe estar entre minimo y maximo.
     #    (*ERROR* La diferencia para la pista CALIENTE debe estar entre {minimo} y {maximo}!)
+    
+    frio = pedir_numero_usuario("Escribe el valor máximo de la diferencia para la pista Frío: ", minimo, maximo)
+    caliente = pedir_numero_usuario("Escribe el valor máximo de la diferencia para la pista Caliente: ", minimo, maximo)
+
+    if frio <= caliente:
+        raise ValueError("*ERROR* La diferencia para la pista FRÍO no puede ser inferior o igual a la CALIENTE!")
+    
+    if caliente <= 0:
+        raise ValueError("ERROR* La diferencia para la pista CALIENTE debe ser superior a 0!")
+    
+    if frio < minimo or frio > maximo:
+        raise ValueError(f"*ERROR* La diferencia para la pista FRÍO debe estar entre {minimo} y {maximo}!")
+
+    if caliente < minimo or caliente > maximo:
+        raise ValueError(f"*ERROR* La diferencia para la pista CALIENTE debe estar entre {minimo} y {maximo}!")
 
     return frio, caliente
 
@@ -259,6 +332,14 @@ def configurar_intentos(rango_numero_oculto) -> int:
     # 2. Inferior al 10% del rango del número oculto.
     #    (*ERROR* El número de intentos no puede ser superior al 10% del rango del número oculto!)
 
+    intentos = pedir_numero_usuario("Escribe cúantos intentos posibles quieres que se realicen: ")
+
+    if intentos <= 0:
+        raise ValueError("*ERROR* El número de intentos debe ser un número entero positivo!")
+    
+    if intentos > rango_numero_oculto * 0.1:
+        raise ValueError("*ERROR* El número de intentos no puede ser superior al 10% del rango del número oculto!")
+
     return intentos
 
 
@@ -273,9 +354,9 @@ def configurar_juego() -> tuple:
     limpiar_pantalla()
     mostrar_titulo(4)
     
-    minimo, maximo = 
-    frio, caliente = 
-    intentos = 
+    minimo, maximo = configurar_rangos_numeros()
+    frio, caliente = configurar_pistas(minimo, maximo)
+    intentos = configurar_intentos(maximo-minimo)
 
     return minimo, maximo, intentos, frio, caliente
 
@@ -292,14 +373,14 @@ def mostrar_configuracion(minimo, maximo, intentos, frio, caliente):
         caliente (int): Diferencia mayor para la pista "Caliente".
     """
 	# Corregir posibles errores...
-    limpiar_pantalla
-    mostrar_titulo()
+    limpiar_pantalla()
+    mostrar_titulo(5)
     print("* El número oculto será un número entre {minimo} y {maximo}.")
     print("* El número de intentos es {intentos}.")
     print("* Pista FRÍO si la diferencia es mayor a {frio}.")
     print("* Pista CALIENTE si la diferencia es mayor a {caliente}.")
-    print("* Pista TE QUEMAS si la diferencia es menor.")
-    pausa
+    print("* Pista TE QUEMAS si la diferencia es menor.\n")
+    pausa(0, True)
 
 
 def mostrar_menu():
@@ -307,15 +388,14 @@ def mostrar_menu():
     Muestra el menú principal del juego.
     """
 	# Corregir posibles errores...
-    mostrar_titulo()
-    input("1. Jugar.")
-    input("2. Configurar.")
-    input("3. Mostrar configuración.")
-    input("4. Salir.\n")
-	limpiar_pantalla()
+    mostrar_titulo(1)
+    print("1. Jugar.")
+    print("2. Configurar.")
+    print("3. Mostrar configuración.")
+    print("4. Salir.")
 
 
-def comprobar_opcion()
+def comprobar_opcion(opcion):
 	# Crear la documentación recomendada para esta función
     return 1 <= opcion <= 4
 
@@ -339,6 +419,8 @@ def elegir_opcion_menu() -> int:
 	
         if not opcion_correcta:
             mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
+    
+    return opcion
 
 
 
@@ -367,11 +449,16 @@ def jugar(numero_oculto: int, intentos: int, frio: int, caliente: int):
     limpiar_pantalla()
     mostrar_titulo(3, intentos)
     numero_adivinado, intentos_realizados = adivina_el_numero(numero_oculto, intentos, frio, caliente)
+
+    if numero_adivinado != numero_oculto:
+        print(f"\nGAME OVER - ¡Otra vez será! (#{numero_oculto}#)")
+    else:
+        print(f"\n¡Bravo! ¡Lo conseguiste en {intentos_realizados} intentos!")
    
-    pausa
+    pausa(0, True, False)
 
 
-def genera_numero_oculto():
+def genera_numero_oculto(minimo, maximo):
 	# Crear la documentación recomendada para esta función
     return random.randint(minimo, maximo)
     
@@ -408,21 +495,20 @@ def main():
     caliente = 5
     intentos = 5
 
-    mostrar_configuracion()
-
     salir = False
 
-    while salir:
+    while not salir:
+        limpiar_pantalla()
         opcion = elegir_opcion_menu()
 
         if opcion == 1:
             numero_oculto = genera_numero_oculto()
             jugar(numero_oculto, intentos, frio, caliente)
         elif opcion == 2:
-            minimo, maximo, intentos, frio, caliente = configurar_juego
+            minimo, maximo, intentos, frio, caliente = configurar_juego()
         elif opcion == 3:
-            mostrar_configuracion()
-        else:
+            mostrar_configuracion(minimo, maximo, intentos, frio, caliente)
+        elif opcion == 4:
             salir = True
 
     limpiar_pantalla()

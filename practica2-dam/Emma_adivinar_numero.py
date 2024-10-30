@@ -1,6 +1,8 @@
 # Importa los paquetes que necesites.
 # Para mostrar cualquier ERROR debes usar la función mostrar_error(), no hagas print directamente.
-
+import os
+import time
+import random
 
 TITULOS = (
     "--- SECCIÓN NO DEFINIDA ---",
@@ -20,7 +22,9 @@ def limpiar_pantalla():
     """
     try:
 		# Debe funcionar en todos los sistemas operativos
-        os.system(comando)
+        comando = "cls"
+        if os.name == "nt":
+            os.system(comando)
     except Exception as e:
         mostrar_error(f"Problemas al intentar limpiar la pantalla: {e}")
 
@@ -37,6 +41,17 @@ def pausa(tiempo = 0, tecla_enter = False, limpiar = True):
         limpiar (bool, opcional): Si es True, limpia la pantalla después de la pausa.
 
     """
+
+    if tiempo > 0:
+        time.sleep(tiempo)
+
+    elif tecla_enter:
+        input("Dale a ENTER para continuar ↩")
+
+    if limpiar:
+        limpiar_pantalla()
+
+
     # Desarrolla esta función y ejecute una pausa de un tiempo en segundos con time.sleep()
     # o una pausa esperando a que el usuario "\nPresione ENTER para continuar..."
     # Además, dependiendo del parámetro opcional limpiar debe limpiar la consola o no
@@ -50,14 +65,17 @@ def mostrar_titulo(seccion: int, intentos: int = 0):
         seccion (int): El identificador de la sección. Los valores válidos son de 1 a len(TITULOS).
         intentos (int): Número de intentos que puede ser usado en el título si corresponde.
     """
-    #if 0 < seccion < len(TITULOS):
-    #    if intentos > 0:
-    #        print(TITULOS[seccion].format(intentos = intentos) + "\n\n")
-    #    else:
-    #        print(f"{TITULOS[seccion]}\n\n")
-    #else:
-    #    print(f"{TITULOS[0]}\n\n")
-	#
+    try:
+            if 0 < seccion < len(TITULOS):
+                if intentos > 0:
+                    print(TITULOS[seccion].format(intentos = intentos) + "\n\n")
+                else:
+                    print(f"{TITULOS[seccion]}\n\n")
+            else:
+                print(f"{TITULOS[0]}\n\n")
+    except Exception as error:
+        mostrar_error(f"ERROR {error}")
+
 	# Hacer lo mismo que el código comentado, pero útilizando try-except 
 	# para controlar si la seccion está fuera de rango
 
@@ -99,6 +117,16 @@ def evaluar_diferencia(numero: int, numero_oculto: int, frio: int, caliente: int
         >>> evaluar_diferencia(98, 100, 15, 5)
         2  # Te Quemas
     """
+    diferencia = (numero - numero_oculto)
+    
+    if diferencia > frio:
+        return 0
+        
+    elif diferencia > caliente:
+        return 1
+    else:
+        return 2
+
 	# Realizar la función según la documentación que observáis
 
 
@@ -129,6 +157,27 @@ def obtener_pista(numero: int, numero_oculto: int, intentos: int, frio: int, cal
 
         En los mensajes, "N" representa el número de intentos restantes.   
     """
+    
+    diferencia = evaluar_diferencia(numero, numero_oculto, frio, caliente)
+
+
+    menor_mayor = ""
+
+    if numero > numero_oculto:
+        menor_mayor = "MAYOR"
+    else:
+        if numero < numero_oculto:
+            menor_mayor = "MENOR"
+    
+    if diferencia == 0:
+        return f"* FRÍO, {frio}, el número oculto es {menor_mayor}... ¡te quedan {intentos} intentos!\n"
+
+    elif diferencia == 1:
+        return f"* CALIENTE, {caliente}, el número oculto es {menor_mayor}... ¡te quedan {intentos} intentos!\n"
+    else:
+        return f"* TE QUEMAS, el número oculto es {menor_mayor}... ¡te quedan {intentos} intentos!\n"
+
+    
 	# Realizar la función según la documentación que observáis
 	# Daros cuenta que debéis hacer una llamada a la función evaluar_diferencia()
 
@@ -180,7 +229,20 @@ def adivina_el_numero(numero_oculto: int, total_intentos: int, minimo: int, maxi
     # Utiliza pedir_numero_usuario("¿Qué número es? ", minimo, maximo)
     # Muestra la pista con obtener_pista() si el número introducido no es el oculto (obtener_pista()).
     # La función debe retornar si el número fue adivinado y los intentos realizados.
+    intentos_realizados = 0
+    numero_adivinado = False
 
+    while intentos_realizados < total_intentos and not numero_adivinado:
+        try:
+            numero = pedir_numero_usuario(f"Que numero es? {minimo}, {maximo}")
+
+            intentos_realizados = intentos_realizados + 1
+            if numero == numero_oculto:
+                numero_adivinado = True
+            else:
+                print(obtener_pista(numero, numero_oculto, total_intentos - intentos_realizados, frio, caliente))
+        except ValueError as error:
+            mostrar_error(str(error))
 
     return numero_adivinado, intentos_realizados
 
@@ -203,6 +265,8 @@ def configurar_rangos_numeros() -> tuple:
     #    (*ERROR* El valor mínimo no puede ser superior al máximo.)
     # 2. La diferencia entre ambos debe ser igual o superior a 100. 
     #    (*ERROR* El rango del número oculto debe ser igual o superior a 100.)
+    if maximo > 100:
+
 
     return minimo, maximo
 
@@ -234,6 +298,8 @@ def configurar_pistas(minimo: int, maximo: int) -> tuple:
     #    (*ERROR* La diferencia para la pista FRÍO debe estar entre {minimo} y {maximo}!)
     # 4. La diferencia para la pista CALIENTE debe estar entre minimo y maximo.
     #    (*ERROR* La diferencia para la pista CALIENTE debe estar entre {minimo} y {maximo}!)
+
+
 
     return frio, caliente
 
@@ -292,7 +358,8 @@ def mostrar_configuracion(minimo, maximo, intentos, frio, caliente):
         caliente (int): Diferencia mayor para la pista "Caliente".
     """
 	# Corregir posibles errores...
-    limpiar_pantalla
+    
+    limpiar_pantalla()
     mostrar_titulo()
     print("* El número oculto será un número entre {minimo} y {maximo}.")
     print("* El número de intentos es {intentos}.")
@@ -333,12 +400,12 @@ def elegir_opcion_menu() -> int:
     while not opcion_correcta:
         mostrar_menu()
 
-        opcion = pedir_numero_usuario("Elije => ")
+		opcion = pedir_numero_usuario("Elije => ")
             
-        opcion_correcta = comprobar_opcion(opcion)
+		opcion_correcta = comprobar_opcion(opcion)
 	
-        if not opcion_correcta:
-            mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
+		if not opcion_correcta:
+			mostrar_error(f"Opción {opcion} incorrecta! (1-4)")
 
 
 
