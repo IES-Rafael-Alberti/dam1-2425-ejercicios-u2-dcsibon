@@ -271,20 +271,18 @@ def adivina_el_numero(numero_oculto: int, total_intentos: int, minimo: int, maxi
 
     while not numero_adivinado and total_intentos > 0:
 
-        numero = None        
         try:
             numero = pedir_numero_usuario("¿Qué número es? ", minimo, maximo)
         except ValueError as e:
             mostrar_error(e)
 
-        if numero != None:
-            intentos_realizados += 1
-            total_intentos -= 1
+        intentos_realizados += 1
+        total_intentos -= 1
 
-            if numero != numero_oculto:
-                print(f"\n{obtener_pista(numero, numero_oculto, total_intentos, frio, caliente)}")
-            else:
-                numero_adivinado = True
+        if numero != numero_oculto:
+            print(f"\n{obtener_pista(numero, numero_oculto, total_intentos, frio, caliente)}")
+        else:
+            numero_adivinado = True
 
     return numero_adivinado, intentos_realizados
 
