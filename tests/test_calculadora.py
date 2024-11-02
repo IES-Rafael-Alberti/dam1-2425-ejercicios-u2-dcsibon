@@ -1,7 +1,7 @@
 
 import pytest
 
-from otros.calculadora import es_resultado_negativo, multiplicar, dividir
+from otros.calculadora import es_resultado_negativo, multiplicar, dividir, potencia
 
 
 def test_es_resultado_negativo():
@@ -47,3 +47,23 @@ def test_dividir():
     # División por cero
     with pytest.raises(ZeroDivisionError):
         dividir(5, 0)
+
+@pytest.mark.parametrize(
+    "base, exponente, expected",
+    [
+        (2, 3, 8),           # 2^3 = 8
+        (5, 0, 1),           # 5^0 = 1
+        (-2, 3, -8),         # -2^3 = -8 (base negativa con exponente impar)
+        (-2, 4, 16),         # -2^4 = 16 (base negativa con exponente par)
+        (10, 1, 10),         # 10^1 = 10
+        (3, -2, 0),          # 3^-2 = 0 (se devuelve 0 para exponentes negativos)
+        (0, 5, 0),           # 0^5 = 0
+        (0, 0, 1),           # 0^0 = 1 (por convención en muchas calculadoras)
+        (5, 2, 25),          # 5^2 = 25
+    ]
+)
+def test_potencia(base, exponente, expected):
+    """
+    Prueba para la función potencia.
+    """
+    assert potencia(base, exponente) == expected

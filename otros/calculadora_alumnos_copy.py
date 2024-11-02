@@ -1,7 +1,14 @@
+# ATENCIÓN!!!
+# Importar los paquetes necesarios
+# NO usar print de los errores en nigún sitio, SIEMPRE llamar a la función mostrar_error
+# En comentarios internos tenéis ayuda para guiaros en la resolución de esta práctica.
+# CADA función SOLO puede tener una instrucción return
 
-import os
 
 # Mensajes de error predefinidos
+import os
+
+
 MENSAJES_ERROR = (
     "Problemas al intentar limpiar la pantalla {error}",
     "Error al configurar los decimales. Formato: decimales <n>.",
@@ -11,23 +18,25 @@ MENSAJES_ERROR = (
 )
 
 # Operadores soportados por la calculadora
-OPERADORES = ('+', '-', 'x', '*', '/', ':', '**', 'exp')
+OPERADORES = "+-x*/:"
 
 
 def limpiar_pantalla():
     """
     Limpia la consola según el sistema operativo.
     """
+    # El desarrollo de esta función está incompleto y con errores...
     try:
         os.system('clear' if os.name == 'posix' else 'cls')
     except Exception as e:
-        mostrar_error(0, str(e))
+        mostrar_error(0)
 
 
 def pausa():
     """
-    Pausa la ejecución del programa hasta que se pulse ENTER.
+    Pausa la ejecución del programa hasta que se pulse ENTER... "\nPresione ENTER para continuar..."
     """
+    # El desarrollo de esta sin realizar... ver documentación. 
     input("\nPresione ENTER para continuar...")
 
 
@@ -39,6 +48,10 @@ def mostrar_error(indice_error: int, msj_error = None):
         indice_error (int): Índice del mensaje de error en MENSAJES_ERROR.
         msj_error (str, opcional): Texto adicional para personalizar el mensaje de error.
     """
+    # Completa el código de esta función para que controle específicamente las excepciones IndexError y 
+    # muestre el mensaje: "\n*ERROR* Mensaje de error no definido.\n"
+    # También se pide que se controle cualquier otra excepción que se pueda producir y muestr el mensaje:
+    # "\n*ERROR* Problemas al mostrar error!\n{e}\n"
     try:
         if msj_error != None:
             print(f"\n*ERROR* {MENSAJES_ERROR[indice_error].format(error = msj_error)}\n")
@@ -51,21 +64,42 @@ def mostrar_error(indice_error: int, msj_error = None):
 
 
 def sumar(num1: float, num2: float) -> float:
-    """Devuelve la suma de num1 y num2."""
+    """
+    Suma dos números y retorna el resultado
+
+    Agrs:
+        num1 (float): primero número a sumar
+        num2 (float): segundo número a sumar
+
+    Returns:
+        (float): resultado de la suma de num1 y num2
+    """
+    # Desarrollo completo, incluida la documentación... recibe 2 números float y retorna la suma de ambos
     return num1 + num2
 
 
 def restar(num1: float, num2: float) -> float:
-    """Devuelve la resta de num1 y num2."""
+    """
+    Resta dos números y retorna el resultado
+
+    Agrs:
+        num1 (float): primero número a sumar
+        num2 (float): segundo número a sumar
+
+    Returns:
+        (float): resultado de la resta de num1 y num2
+    """    
+    # Desarrollo completo, incluida la documentación... recibe 2 números float y retorna la resta de ambos
     return num1 - num2
+    
 
 
 def es_resultado_negativo(num1: float, num2: float) -> bool:
     """Determina si el resultado de una operación entre num1 y num2 debe ser negativo."""
-    return (num1 < 0) != (num2 < 0)
+    # El desarrollo de esta sin realizar y debe cumplirse la documentación y debe pasar las pruebas unitarias.
 
 
-def multiplicar(num1: float, num2: float) -> int:
+def multiplicar():
     """
     Realiza la multiplicación ENTERA de dos números usando solo sumas y restas.
     
@@ -79,30 +113,13 @@ def multiplicar(num1: float, num2: float) -> int:
     Note:
         Debe redondear los números recibidos a enteros para trabajar.
     """
-    
-    if num2 == 0:
-        resultado = 0
-    else:
-        resultado_negativo = es_resultado_negativo(num1, num2)
+    # El desarrollo de esta sin realizar y debe cumplirse la documentación y debe pasar las pruebas unitarias.
+    # OBLIGATORIO usar un bucle for
 
-        num1 = round(abs(num1))
-        num2 = round(abs(num2))
 
-        # Para optimizar el menor número de iteraciones del bucle for, seleccionamos el rango del número menor
-        num_a_sumar = max(num1, num2)
-        num_rango = min(num1, num2)
 
-        resultado = 0
-        for _ in range(num_rango):
-            resultado += num_a_sumar
 
-        if resultado_negativo:
-            resultado = resultado - (resultado + resultado)
-
-    return resultado
-   
-
-def dividir(num1: float, num2: float) -> int:
+def dividir():
     """
     Realiza la división ENTERA de dos números usando solo sumas y restas.
     
@@ -119,111 +136,44 @@ def dividir(num1: float, num2: float) -> int:
     Note:
         Debe redondear los números recibidos a enteros para trabajar.        
     """
+    # El desarrollo de esta sin realizar y debe cumplirse la documentación y debe pasar las pruebas unitarias.
     
-    if num2 == 0:
-        raise ZeroDivisionError("No es posible dividir por cero!")
-    else:    
-        resultado_negativo = es_resultado_negativo(num1, num2)
-
-        num1 = round(abs(num1))
-        num2 = round(abs(num2))
-
-        resultado = 0
-        while num1 >= num2:
-            num1 -= num2
-            resultado += 1
-
-        if resultado_negativo:
-            resultado = resultado - (resultado + resultado)
-
-    return resultado
 
 
-def potencia(base: float, exponente: float) -> int:
-    """
-    Calcula la potencia de un número usando multiplicaciones sucesivas.
-
-    Args:
-        base (float): La base que se va a elevar.
-        exponente (int): El exponente al que se elevará la base.
-    
-    Returns:
-        int: El resultado de elevar la base al exponente.
-    
-    Note:
-        Utiliza la función multiplicar para realizar la operación de potencia.
-        Este método está diseñado para exponentes enteros no negativos.
-    """
-    # Cualquier número elevado a 0 es 1
-    if exponente == 0:
-        resultado = 1
-
-    # Para esta práctica vamos a suponer que un número elevado a un exponente 
-    # negativo siempre dará 0 (aunque en realidad no es así matemáticamente)
-    elif exponente < 0: 
-        resultado = 0
-
-    else:
-        # Comprobamos si el signo del resultado debe ser negativo: 
-        # Solo para bases negativas con exponentes impares...
-        resultado_negativo = base < 0 and exponente % 2 != 0
-
-        # Tomamos el valor absoluto de la base y exponente como entero
-        exponente = round(abs(exponente))
-        base = round(abs(base))
-        resultado = base
-
-        for _ in range(exponente - 1):
-            resultado = multiplicar(resultado, base)
-        
-        if resultado_negativo:
-            resultado = resultado - (resultado + resultado)
-
-    return resultado
+def potencia():
+    # El desarrollo de esta sin realizar y tampoco la documentación.
+    # PREMISAS a tener en cuenta:
+    # - Cualquier número elevado a 0 da como resultado 1.
+    # - Para simplificar esta práctica vamos a suponer que un número elevado a un 
+    #   exponente negativo siempre dará 0 (aunque en realidad no es así matemáticamente)
 
 
 def pedir_entrada(msj: str) -> str:
     """
-    Pide al usuario una entrada, la limpia y convierte a minúsculas.
+    Pide al usuario una entrada, elimina espacios por delante y por detrás y la convierte a minúsculas.
     
     Args:
         msj (str): Mensaje para solicitar la entrada.
     
     Returns:
         str: Entrada del usuario.
-    """    
-    return input(msj).strip().lower()
+    """
+    # El desarrollo de esta función está incompleto... leer documentación
+    return input(msj)
 
 
 def calcular_operacion(num1: float, num2: float, operador: str) -> float:
-    """
-    Realiza la operación especificada entre num1 y num2 dependiendo del valor del operador.
-    
-    Args:
-        num1 (float): Primer número.
-        num2 (float): Segundo número.
-        operador (str): Operador de la operación.
-    
-    Returns:
-        float: Resultado de la operación.
-    """    
-    if operador in "x*":
-        resultado = multiplicar(num1, num2)
-    elif operador in "/:":
-        resultado = dividir(num1, num2)
-    elif operador == "+":
-        resultado = sumar(num1, num2)
-    elif operador in "**exp":
-        resultado = potencia(num1, num2)
-    else:
-        resultado = restar(num1, num2)
+    # Crear la documentación que está incompleta...
+    # El desarrollo de esta función está incompleto... realiza las llamadas adecuadas a las 
+    # funciones ya creadas para realizar los distintos cálculos.
 
     return resultado
 
 
 def obtener_operaciones() -> str:
     """Devuelve una cadena con la lista de operaciones disponibles en la calculadora."""
-    return """
+    # El desarrollo de esta función está incompleto
+    """
     Operaciones disponibles:
       ce => Reiniciar resultado a 0
       decimales <n> => Establecer decimales en resultado
@@ -239,7 +189,7 @@ def obtener_operaciones() -> str:
     """
 
 
-def realizar_calculo(decimales: int, resultado_almacenado: float) -> float:
+def realizar_calculo():
     """
     Realiza una secuencia de cálculos solicitando números y operadores al usuario.
     
@@ -249,49 +199,51 @@ def realizar_calculo(decimales: int, resultado_almacenado: float) -> float:
     
     Returns:
         float: Resultado final del cálculo o None si se cancela.
+
+    Note:
+        * El usuario es guiado para introducir números y operadores secuencialmente para realizar operaciones básicas.
+        * El usuario puede utilizar "resultado" en la secuencia de cálculo para reutilizar el resultado almacenado en la calculadora.
+        * El cálculo finaliza al pulsar <ENTER>, volviendo y actualizando el resultado almacenado de la calculadora con el cálculo realizado.
+        * También podemos escribir "cancelar", volviendo sin realizar ningún cambio en el resultado almacenado de la calculadora.    
     """
+    # El desarrollo de esta función está incompleto... ver documentación para solucionarlo.
+
     operador = None
     resultado = None
-    realizando_calculos = True
+    realizando_calculo = True
 
     print("\n## Ingrese número, operador, 'resultado', 'cancelar' o <ENTER> para finalizar el cálculo ##\n")
 
-    while realizando_calculos:
-        entrada = pedir_entrada(f"\t (Cálculo = {resultado if resultado != None else 0}) >> ")
+    while realizando_calculo:
+        entrada = pedir_entrada(f"\t (Cálculo = {resultado if resultado is not None else 0}) >> ")
         
         if entrada == "cancelar":
-            resultado = None
-            realizando_calculos = False
-        
+
+
         elif entrada == "":
-            realizando_calculos = False
-        
+
+
         elif entrada in OPERADORES:
-            operador = entrada
-        
+
+
         else:
             if entrada == "resultado":
                 entrada = resultado_almacenado
 
-            try:
-                numero = float(entrada)
+            numero = float(entrada)
 
-                if operador is not None:
-                    if resultado is None:
-                        resultado = 0
-                    resultado = round(calcular_operacion(resultado, numero, operador), decimales)
-                    operador = None
+            if operador is not None:
+                if resultado is None:
+                    resultado = 0
+                resultado = round(calcular_operacion(resultado, numero, operador), decimales)
+                operador = None
 
-                elif resultado is None:
-                    resultado = numero
+            elif resultado is None:
+                resultado = numero
 
-                else:
-                    mostrar_error(3)
+            else:
+                mostrar_error(3)
 
-            except ValueError:
-                mostrar_error(2)
-    
-    return resultado
 
 
 def main():
@@ -322,23 +274,26 @@ def main():
         
         5. Finalmente, se limpia la pantalla, el programa se despide y termina.
     """
+    # Corrige los errores y haz que el main funcione correctamente...
+
+    #
+    # Agregar una NUEVA FUNCIONALIDAD a la calculadora: el cálculo del exponente
+    #
 
     decimales = 2
     resultado = 0.0
-    desea_salir = False
+    desea_salir = True
 
     while not desea_salir:
-        limpiar_pantalla()
         print("### CALCULADORA ###\n    -----------\n\n")
 
-        entrada = pedir_entrada(f"Operación (RES => {resultado:.{decimales}f}) >> ")
+        pedir_entrada(f"Operación (RES => resultado) >> ")
 
         if entrada == "":
-            desea_salir = pedir_entrada("¿Desea salir de la calculadora? (s/n) ") == "s"
+            desea_salir = pedir_entrada("¿Desea salir de la calculadora? (s/n) ") == "S"
 
         elif entrada == "lista":
-            print(obtener_operaciones())
-            pausa()
+            obtener_operaciones()
 
         elif entrada == "ce":
             resultado = 0
@@ -347,27 +302,16 @@ def main():
             try:
                 decimales = int(entrada.split()[1])
                 print(f"Decimales configurados a {decimales}.")
-            except (IndexError, ValueError):
-                mostrar_error(1)
+            except
+                mostrar_error
             
             pausa()                
 
         elif entrada == "calculo":
-            resultado_ultimo_calculo = realizar_calculo(decimales, resultado)
-
-            if resultado_ultimo_calculo != None:
-                resultado = resultado_ultimo_calculo
+            realizar_calculo(decimales, resultado)
 
             pausa()
 
         else:
-            mostrar_error(4)
+            mostrar_error
             pausa()
-
-
-    limpiar_pantalla()
-    print("\n\nBye, bye...\n\n")
-
-
-if __name__ == "__main__":
-    main()
