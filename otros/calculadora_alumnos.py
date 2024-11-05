@@ -167,7 +167,7 @@ def pedir_entrada(msj: str) -> str:
     Returns:
         str: Entrada del usuario.
     """
-    # El desarrollo de esta función está incompleto, debéis terminarla teniendo en cuenta la documentación
+    # TODO: El desarrollo de esta función está incompleto, debéis terminarla teniendo en cuenta la documentación
     return input(msj)
 
 
@@ -183,9 +183,9 @@ def calcular_operacion(num1: float, num2: float, operador: str) -> float:
     Returns:
         float: Resultado de la operación.
     """        
-    # El desarrollo de esta función está incompleto... completadla teniendo en cuenta la documentación
+    # TODO: El desarrollo de esta función está incompleto... completadla teniendo en cuenta la documentación
     # y que debe realizar las llamadas adecuadas a las funciones ya creadas para realizar los distintos 
-    # cálculos.
+    # cálculos... sumar, restar, multiplicar, dividir y potencia.
 
     return resultado
 
@@ -198,7 +198,7 @@ def obtener_operaciones() -> str:
     Returns:
         (str): cadena de caracteres con la información de las operaciones disponibles.
     """
-    # El desarrollo de esta función está incompleto...
+    # TODO: El desarrollo de esta función está incompleto... ver documentación para solucionarla correctamente.
     """
     Operaciones disponibles:
       ce => Reiniciar resultado a 0
@@ -241,7 +241,7 @@ def realizar_calculo():
         * También podemos escribir "cancelar", volviendo sin realizar ningún cambio en el 
           resultado almacenado de la calculadora.    
     """
-    # El desarrollo de esta función está incompleto... ver documentación para solucionarla correctamente.
+    # TODO: El desarrollo de esta función está incompleto... ver documentación para solucionarla correctamente.
 
     operador = None
     resultado = None
@@ -309,7 +309,7 @@ def main():
         
         5. Finalmente, se limpia la pantalla, el programa se despide con el mensaje "\n\nBye, bye...\n\n" y termina.
     """
-    # Corrige los errores y haz que el main funcione correctamente...
+    # TODO: Corrige los errores y haz que el main funcione correctamente...
 
     decimales = 2
     resultado = 0.0
