@@ -145,7 +145,7 @@ def potencia(base: float, exponente: float) -> int:
 
     Args:
         base (float): La base que se va a elevar.
-        exponente (int): El exponente al que se elevará la base.
+        exponente (float): El exponente al que se elevará la base.
     
     Returns:
         int: El resultado de elevar la base al exponente.
