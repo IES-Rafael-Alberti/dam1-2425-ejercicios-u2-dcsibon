@@ -1,7 +1,7 @@
 
 import pytest
 
-from otros.calculadora import es_resultado_negativo, multiplicar, dividir, potencia
+from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
 
 
 # TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:
