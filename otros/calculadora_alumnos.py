@@ -221,7 +221,7 @@ def obtener_operaciones() -> str:
           - => Resta
           x o * => Multiplicación
           / o : => División
-          ** exp => Potencia
+          ** o exp => Potencia
           cancelar => vovler sin actualizar resultado de la calculadora
           cadena vacía + <ENTER> => volver actualizando resultado de la calculadora
     """
