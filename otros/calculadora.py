@@ -220,8 +220,13 @@ def calcular_operacion(num1: float, num2: float, operador: str) -> float:
         resultado = sumar(num1, num2)
     elif operador in "**exp":
         resultado = potencia(num1, num2)
-    else:
+    elif operador == "-":
         resultado = restar(num1, num2)
+    else:
+        # En principio no sería necesario controlar este error, ya que nunca va
+        # a llamar a esta función con un operador que no esté en la constante 
+        # OPERADORES (ver realizar_calculo()).
+        raise ValueError
 
     return resultado
 
