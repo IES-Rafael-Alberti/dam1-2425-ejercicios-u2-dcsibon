@@ -53,18 +53,60 @@ def mostrar_error(indice_error: int, msj_error = None):
 
 
 def sumar(num1: float, num2: float) -> float:
-    """Devuelve la suma de num1 y num2."""
+    """Suma dos números.
+
+    Args:
+        num1 (float): El primer número a sumar.
+        num2 (float): El segundo número a sumar.
+
+    Returns:
+        float: El resultado de la suma de num1 y num2.
+    """
     return num1 + num2
 
 
 def restar(num1: float, num2: float) -> float:
-    """Devuelve la resta de num1 y num2."""
+    """Resta dos números.
+
+    Args:
+        num1 (float): El número del que se resta (minuendo).
+        num2 (float): El número a restar (sustraendo).
+
+    Returns:
+        float: El resultado de la resta de num1 y num2.
+    """
     return num1 - num2
 
 
-def es_resultado_negativo(num1: float, num2: float) -> bool:
-    """Determina si el resultado de una operación entre num1 y num2 debe ser negativo."""
-    return (num1 < 0) != (num2 < 0)
+def es_resultado_negativo(num1: float, num2: float, es_potencia: bool = False) -> bool:
+    """Determina si el resultado de una operación entre num1 y num2 debe ser negativo.
+
+    Esta función verifica si el resultado de una operación matemática entre `num1` y `num2`
+    tendría un valor negativo. Si el parámetro `es_potencia` es `True`, se considera una
+    operación de potencia; de lo contrario, se considera una operación de multiplicación o
+    división.
+
+    Args:
+        num1 (float): El primer número de la operación.
+        num2 (float): El segundo número de la operación.
+        es_potencia (bool, optional): Indica si la operación es una potencia. 
+
+    Returns:
+        bool: `True` si el resultado debería ser negativo, `False` en caso contrario. 
+              Valor por defecto es `False`.
+
+    Note:
+        * Si es_potencia es `True` (potencia), el resultado es negativo si `num1` (base)
+          es negativo y `num2` (exponente) es impar. 
+        * Si es_potencia es `False` (multiplicación y división), el resultado es negativo 
+         si solo uno de los números es negativo.
+    """
+    if es_potencia:
+        es_negativo = (num1 < 0) and (num2 % 2 != 0)
+    else:
+        es_negativo = (num1 < 0) != (num2 < 0)
+
+    return es_negativo
 
 
 def multiplicar(num1: float, num2: float) -> int:
@@ -168,7 +210,7 @@ def potencia(base: float, exponente: float) -> int:
     else:
         # Comprobamos si el signo del resultado debe ser negativo: 
         # Solo para bases negativas con exponentes impares...
-        resultado_negativo = base < 0 and exponente % 2 != 0
+        resultado_negativo = es_resultado_negativo(base, exponente, True)
 
         # Tomamos el valor absoluto de la base y exponente como entero
         exponente = round(abs(exponente))
