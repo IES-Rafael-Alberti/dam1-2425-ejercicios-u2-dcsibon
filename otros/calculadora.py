@@ -14,6 +14,12 @@ MENSAJES_ERROR = (
 
 # Operadores soportados por la calculadora
 OPERADORES = ('+', '-', 'x', '*', '/', ':', '**', 'exp')
+OPERADORES_SUMAR = ('+')
+OPERADORES_RESTAR = ('-')
+OPERADORES_MULTIPLICAR = ('x', '*')
+OPERADORES_DIVIDIR = ('/', ':')
+OPERADORES_POTENCIA = ('**', 'exp')
+
 
 
 def limpiar_pantalla():
@@ -143,7 +149,7 @@ def multiplicar(num1: float, num2: float) -> int:
 
         # También podríamos haber utilizado la función sumar:
         # for _ in range(num_rango):
-        #     resultado += sumar(resultado, num_a_sumar)
+        #     resultado = sumar(resultado, num_a_sumar)
 
         # Ajuste de signo si el resultado es negativo
         if resultado_negativo:
@@ -193,7 +199,7 @@ def dividir(num1: float, num2: float) -> int:
 
         # También podríamos haber utilizado la función restar
         # while num1 >= num2:
-        #     num1 += restar(num1, num2)
+        #     num1 = restar(num1, num2)
         #     resultado = sumar(resultado, 1)
 
         # Ajuste de signo si el resultado es negativo
@@ -277,15 +283,15 @@ def calcular_operacion(num1: float, num2: float, operador: str) -> float:
     Raises:
         ZeroDivisionError: Si el divisor es cero.
     """    
-    if operador in "x*":
+    if operador in OPERADORES_MULTIPLICAR:
         resultado = multiplicar(num1, num2)
-    elif operador in "/:":
+    elif operador in OPERADORES_DIVIDIR:
         resultado = dividir(num1, num2)
-    elif operador == "+":
+    elif operador in OPERADORES_SUMAR:
         resultado = sumar(num1, num2)
-    elif operador in "**exp":
+    elif operador in OPERADORES_POTENCIA:
         resultado = potencia(num1, num2)
-    elif operador == "-":
+    elif operador in OPERADORES_RESTAR:
         resultado = restar(num1, num2)
     else:
         # En principio no sería necesario controlar este error, ya que nunca va
