@@ -1,6 +1,5 @@
 
 import pytest
-
 from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
 
 
@@ -8,15 +7,14 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 # Casos donde el resultado debe ser negativo (2 casos)
 # Casos donde el resultado debe ser positivo (2 casos)
 
-
 def test_es_resultado_negativo():
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
+    # Resultados negativos
+    assert es_resultado_negativo(4, -3) == -12
+    assert es_resultado_negativo(2, -3) == -6
+
+    # Resultados positivos
+    assert es_resultado_negativo(4, 3) == 12
+    assert es_resultado_negativo(2, 3) == 6
 
 
 def test_multiplicar():

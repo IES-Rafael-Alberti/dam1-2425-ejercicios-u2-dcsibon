@@ -9,15 +9,6 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 # Casos donde el resultado debe ser positivo (2 casos)
 
 
-def test_es_resultado_negativo():
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
-
 
 def test_multiplicar():
     # Multiplicación con números positivos
@@ -73,3 +64,10 @@ def test_potencia(base, exponente, expected):
     Prueba para la función potencia.
     """
     assert potencia(base, exponente) == expected
+
+
+def test_es_resultado_negativo():
+    assert es_resultado_negativo(-2, -3) == False
+    assert es_resultado_negativo(12, 3) == False
+    assert es_resultado_negativo(-4, 3) == True
+    assert es_resultado_negativo(4, -3) == True

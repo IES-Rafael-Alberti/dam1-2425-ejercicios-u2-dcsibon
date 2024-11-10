@@ -8,15 +8,14 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 # Casos donde el resultado debe ser negativo (2 casos)
 # Casos donde el resultado debe ser positivo (2 casos)
 
-
 def test_es_resultado_negativo():
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
+    # Casos donde el resultado es negativo.
+    assert es_resultado_negativo(-4, 4) == True
+    assert es_resultado_negativo(5, -3) == True
+
+    # Casos donde el resultado es positivo.
+    assert es_resultado_negativo(5, 4) == False
+    assert es_resultado_negativo(3, 8) == False
 
 
 def test_multiplicar():

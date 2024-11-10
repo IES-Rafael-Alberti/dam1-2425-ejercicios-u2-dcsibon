@@ -7,16 +7,21 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 # TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:
 # Casos donde el resultado debe ser negativo (2 casos)
 # Casos donde el resultado debe ser positivo (2 casos)
+@pytest.mark.parametrize(
+    "num1, num2, expected",
+    [
+        (2, -1, True),           # num1= 2 y num2= -1 = True
+        (-5, 2, True),           # num1= -5 y num2= 2 = True
+        (-2, -3, False),         # num1= -2 y num2= -3 = False
+        (2, 4, False),           # num1= 2 y num2= 4 = False
+    ]
+)
+def test_es_resultado_negativo(num1, num2, expected):
+    """
+    Prueba la funcion es negativo.
+    """
+    assert es_resultado_negativo (num1, num2) == expected
 
-
-def test_es_resultado_negativo():
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
 
 
 def test_multiplicar():

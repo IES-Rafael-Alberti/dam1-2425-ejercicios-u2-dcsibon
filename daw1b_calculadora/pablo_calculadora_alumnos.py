@@ -26,9 +26,12 @@ MENSAJES_ERROR = (
 OPERADORES = (
     '+',
     '-',
-    'x'  '*',
-    '/'  ':',
-    '**' 'exp',
+    'x',
+    '*',
+    '/',
+    ':',
+    '**',
+    'exp',
 )
 
 
@@ -53,11 +56,15 @@ def limpiar_pantalla():
 
 
 
-def pausa():
+def pausa(tecla_enter = False):
     """
     Pausa la ejecución del programa hasta que se pulse ENTER... "\nPresione ENTER para continuar..."
     """
     # TODO: Desarrollar esta función según su documentación. 
+    
+    if tecla_enter == True:
+        input("\nPresione ENTER para continuar...")
+
 
 
 def mostrar_error(indice_error: int, msj_error = None):
@@ -77,13 +84,15 @@ def mostrar_error(indice_error: int, msj_error = None):
     # 3. También se pide que se controle cualquier otra excepción que se pueda producir y muestre el mensaje:
     #    "\n*ERROR* Problemas al mostrar error!\n{e}\n"
     # 4. En esta función los mensajes de error deben mostrarse con print.
-    MENSAJES_ERROR = indice_error
+    #MENSAJES_ERROR = indice_error
+    indice_error = MENSAJES_ERROR
 
     if msj_error != None:
-        print(f"\n*ERROR* {MENSAJES_ERROR.format(error = msj_error)}\n")
+        print(f"\n*ERROR* {MENSAJES_ERROR.format(error = str(msj_error))}\n")
     else:
-        print(f"\n*ERROR* {MENSAJES_ERROR}\n")
+        print(f"\n*ERROR* {indice_error}\n")
 
+ 
 
 def sumar(num1: float, num2: float) -> float:
     
@@ -137,7 +146,7 @@ def es_resultado_negativo(num1: float, num2: float) -> bool:
 
 
 
-def multiplicar():
+def multiplicar(num1: float, num2: float):
     """
     Realiza la multiplicación ENTERA de dos números usando solo sumas y restas.
     
@@ -161,6 +170,12 @@ def multiplicar():
     # 5. Tened en cuenta que podéis recibir números negativos, es decir, la operación -5 * -5 = 25
     # 6. OBLIGATORIO usar un bucle for.
     # 7. Incluir algún comentario para mejorar la claridad y permitir que otros comprendan el propósito y funcionamiento del código.
+
+    num1 = int(num1)
+    num2 = int(num2)
+
+    for num1 in range(num2):
+        print(num1)
 
 
 
@@ -190,6 +205,8 @@ def dividir():
     #    simplificar esta función, es decir, la operación 4.98 / 3.33, deberá convertirse en 5 / 3.
     # 5. Tened en cuenta que podéis recibir números negativos, es decir, la operación -5 / -5 = 1
     # 6. Incluir algún comentario para mejorar la claridad y permitir que otros comprendan el propósito y funcionamiento del código.
+
+
 
 
 def potencia():
@@ -250,9 +267,12 @@ def calcular_operacion(num1: float, num2: float, operador: str) -> float:
         resultado = sumar(num1, num2)
 
     elif operador == "-":
-        resultado = sumar(num1, num2)
+        resultado = restar(num1, num2)
+
+    elif operador == "*" or operador == "x":
+        resultado = multiplicar(num1, num2)
     
-    return resultado
+    return float(resultado)
 
 
 
@@ -330,7 +350,7 @@ def realizar_calculo(decimales: int, resultado_almacenado: float) -> float:
     operador = None
     resultado = None
     realizando_calculos = True
-    resultado = resultado_almacenado
+    resultado_almacenado = resultado
 
     print("\n## Ingrese número, operador, 'resultado', 'cancelar' o <ENTER> para finalizar el cálculo ##\n")
 
@@ -341,7 +361,8 @@ def realizar_calculo(decimales: int, resultado_almacenado: float) -> float:
             entrada = resultado
 
         elif entrada == "":
-            realizando_calculos = True
+            pausa(tecla_enter = True)
+            realizando_calculos = False
 
         elif entrada in OPERADORES:
             operador = entrada
@@ -395,8 +416,8 @@ def realizar_calculo(decimales: int, resultado_almacenado: float) -> float:
 
                 else:
                     mostrar_error(3)
-            except ValueError:
-                mostrar_error(2)
+            except:
+                mostrar_error(f"Debes introducir un número decimal!!!")
 
 def main():
     """
@@ -450,15 +471,18 @@ def main():
             obtener_operaciones()
 
         elif entrada == "ce":
-            pass
+            resultado_almacenado = 0
 
         elif entrada.startswith("decimales"):
             # Extraemos las posiciones decimales y las convertimos a un valor entero
-            decimales = str(entrada.split(".")[:-1])
+            decimales = str(entrada.split(".")[-1])
             print(f"Decimales configurados a {decimales}.")
 
         elif entrada == "calculo":
-            resultado_almacenado = realizar_calculo(resultado, resultado_almacenado)
+            #resultado = realizar_calculo(resultado, resultado_almacenado)
+            resultado = realizar_calculo(decimales, resultado)
+            resultado = resultado_almacenado
+
             
 
         else:

@@ -5,18 +5,13 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 
 
 # TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:
-# Casos donde el resultado debe ser negativo (2 casos)
-# Casos donde el resultado debe ser positivo (2 casos)
-
-
 def test_es_resultado_negativo():
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
+# Casos donde el resultado debe ser negativo (2 casos)
+    assert es_resultado_negativo(3.421, 3.922) == False
+    assert es_resultado_negativo(7.11, 2.1) == False
+# Casos donde el resultado debe ser positivo (2 casos)
+    assert es_resultado_negativo(3.421, -3.922) == True
+    assert es_resultado_negativo(-7.11, 2.1) == True
 
 
 def test_multiplicar():

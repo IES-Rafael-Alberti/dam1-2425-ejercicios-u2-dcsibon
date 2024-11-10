@@ -8,16 +8,11 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 # Casos donde el resultado debe ser negativo (2 casos)
 # Casos donde el resultado debe ser positivo (2 casos)
 
-
 def test_es_resultado_negativo():
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
-
+    assert es_resultado_negativo(-12,2) == True
+    assert es_resultado_negativo(12,-2) == True
+    assert es_resultado_negativo(-12,-2) == False
+    assert es_resultado_negativo(12,2) == False
 
 def test_multiplicar():
     # Multiplicación con números positivos
@@ -57,15 +52,15 @@ def test_dividir():
 @pytest.mark.parametrize(
     "base, exponente, expected",
     [
-        (2, 3, 8),           # 2^3 = 8
-        (5, 0, 1),           # 5^0 = 1
+        (2, 3, 8),           # 2^3 = 8 (base positiva con exponente par)
+        (5, 0, 1),           # 5^0 = 1 (devuelve 1 por exponente 0)
         (-2, 3, -8),         # -2^3 = -8 (base negativa con exponente impar)
         (-2, 4, 16),         # -2^4 = 16 (base negativa con exponente par)
-        (10, 1, 10),         # 10^1 = 10
+        (10, 1, 10),         # 10^1 = 10 (es la base en si)
         (3, -2, 0),          # 3^-2 = 0 (se devuelve 0 para exponentes negativos)
-        (0, 5, 0),           # 0^5 = 0
+        (0, 5, 0),           # 0^5 = 0 (multiplicar 5 veces 0)
         (0, 0, 1),           # 0^0 = 1 (por convención en muchas calculadoras)
-        (5, 2, 25),          # 5^2 = 25
+        (5, 2, 25),          # 5^2 = 25 (base positiva con exponente impar)
     ]
 )
 def test_potencia(base, exponente, expected):
