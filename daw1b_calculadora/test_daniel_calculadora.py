@@ -1,7 +1,7 @@
 
 import pytest
 
-from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
+from daw1b_calculadora.daniel_calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
 
 
 # TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:
@@ -66,6 +66,9 @@ def test_potencia(base, exponente, expected):
     assert potencia(base, exponente) == expected
 
 def test_es_resultado_negativo():
+    assert (es_resultado_negativo(0,0)) == False
+    assert (es_resultado_negativo(0,-3)) == False
+    assert (es_resultado_negativo(-4,0)) == False
     assert (es_resultado_negativo(4,3)) == False
     assert (es_resultado_negativo(4,-3)) == True
     assert (es_resultado_negativo(-4,3)) == True

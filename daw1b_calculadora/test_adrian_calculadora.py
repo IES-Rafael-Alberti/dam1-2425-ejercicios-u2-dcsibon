@@ -1,6 +1,6 @@
 import pytest
 
-from src.probar_cosas import es_resultado_negativo, multiplicar, dividir, potencia
+from daw1b_calculadora.adrian_calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
 
 
 # TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:

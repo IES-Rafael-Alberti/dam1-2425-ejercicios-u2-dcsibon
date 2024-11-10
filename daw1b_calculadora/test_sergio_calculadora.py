@@ -1,7 +1,7 @@
 
 import pytest
 
-from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
+from daw1b_calculadora.sergio_calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
 
 
 # TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:
@@ -9,6 +9,9 @@ from src.calculadora_alumnos import es_resultado_negativo, multiplicar, dividir,
 # Casos donde el resultado debe ser positivo (2 casos)
 
 def test_es_resultado_negativo():
+    assert es_resultado_negativo(0,2) == False
+    assert es_resultado_negativo(0,0) == False
+    assert es_resultado_negativo(-6,0) == True
     assert es_resultado_negativo(-12,2) == True
     assert es_resultado_negativo(12,-2) == True
     assert es_resultado_negativo(-12,-2) == False

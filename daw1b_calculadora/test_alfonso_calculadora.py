@@ -1,22 +1,19 @@
 
 import pytest
 
-from otros.calculadora import es_resultado_negativo, multiplicar, dividir, potencia
+from daw1b_calculadora.alfonso_calculadora_alumnos import es_resultado_negativo, multiplicar, dividir, potencia
+
+
+# TODO: Crear el test unitario para la función es_resultado_negativo. Verifica lo siguiente:
+# Casos donde el resultado debe ser negativo (2 casos)
+# Casos donde el resultado debe ser positivo (2 casos)
 
 
 def test_es_resultado_negativo():
-    # Casos con números 0
-    assert es_resultado_negativo(0, 0) is False
-    assert es_resultado_negativo(0, -7) is False
-    assert es_resultado_negativo(-4, 0) is False
-
-    # Casos donde el resultado debe ser negativo
-    assert es_resultado_negativo(-5, 3) is True
-    assert es_resultado_negativo(4, -7) is True
-    
-    # Casos donde el resultado debe ser positivo
-    assert es_resultado_negativo(5, 3) is False
-    assert es_resultado_negativo(-2, -8) is False
+    assert es_resultado_negativo(-1, 1) == "negativo"
+    assert es_resultado_negativo(1,1) == "positivo"
+    assert es_resultado_negativo(-2,-3) == "positivo"
+    assert es_resultado_negativo(5,-5) == "negativo"
 
 def test_multiplicar():
     # Multiplicación con números positivos
@@ -53,13 +50,14 @@ def test_dividir():
     with pytest.raises(ZeroDivisionError):
         dividir(5, 0)
 
+
 @pytest.mark.parametrize(
     "base, exponente, expected",
     [
         (2, 3, 8),           # 2^3 = 8
         (5, 0, 1),           # 5^0 = 1
         (-2, 3, -8),         # -2^3 = -8 (base negativa con exponente impar)
-        (-2, 4, 16),         # -2^4 = 16 (base negativa con exponente par)
+        (-2.09, 4.44, 16),         # -2^4 = 16 (base negativa con exponente par)
         (10, 1, 10),         # 10^1 = 10
         (3, -2, 0),          # 3^-2 = 0 (se devuelve 0 para exponentes negativos)
         (0, 5, 0),           # 0^5 = 0

@@ -84,13 +84,8 @@ def restar(num1: float, num2: float) -> float:
     return num1 - num2
 
 
-def es_resultado_negativo(num1: float, num2: float, es_potencia: bool = False) -> bool:
-    """Determina si el resultado de una operación entre num1 y num2 debe ser negativo.
-
-    Esta función verifica si el resultado de una operación matemática entre `num1` y `num2`
-    tendría un valor negativo. Si el parámetro `es_potencia` es `True`, se considera una
-    operación de potencia; de lo contrario, se considera una operación de multiplicación o
-    división.
+def es_resultado_negativo(num1: float, num2: float) -> bool:
+    """Determina si el resultado de una operación de multiplicación o división entre num1 y num2 debe ser negativo.
 
     Args:
         num1 (float): El primer número de la operación.
@@ -100,19 +95,8 @@ def es_resultado_negativo(num1: float, num2: float, es_potencia: bool = False) -
     Returns:
         bool: `True` si el resultado debería ser negativo, `False` en caso contrario. 
               Valor por defecto es `False`.
-
-    Note:
-        * Si es_potencia es `True` (potencia), el resultado es negativo si `num1` (base)
-          es negativo y `num2` (exponente) es impar. 
-        * Si es_potencia es `False` (multiplicación y división), el resultado es negativo 
-         si solo uno de los números es negativo.
     """
-    if es_potencia:
-        es_negativo = (num1 < 0) and (num2 % 2 != 0)
-    else:
-        es_negativo = (num1 < 0) != (num2 < 0)
-
-    return es_negativo
+    return (num1 != 0) and (num2 != 0) and (num1 < 0) != (num2 < 0)
 
 
 def multiplicar(num1: float, num2: float) -> int:
@@ -228,11 +212,9 @@ def potencia(base: float, exponente: float) -> int:
         Utiliza la función multiplicar para realizar la operación de potencia.
         Este método está diseñado para exponentes enteros no negativos.
     """
-    resultado_negativo = es_resultado_negativo(base, exponente, True)
-
-    # Redondeamos a entero. La base no debe tener signo para realizar los cálculos
+    # Redondeamos a entero
     exponente = round(exponente)
-    base = round(abs(base))
+    base = round(base)
 
     # Cualquier número elevado a 0 es 1
     if exponente == 0:
@@ -248,10 +230,6 @@ def potencia(base: float, exponente: float) -> int:
         for _ in range(exponente - 1):
             resultado = multiplicar(resultado, base)
         
-        # Ajusta el signo del resultado si el cálculo debe ser negativo
-        if resultado_negativo:
-            resultado = 0 - resultado
-
     return resultado
 
 
