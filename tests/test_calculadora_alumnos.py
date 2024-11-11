@@ -10,8 +10,8 @@ from daw1b_calculadora.ezequiel_calculadora_alumnos import es_resultado_negativo
 
 
 def test_es_resultado_negativo():
-    #assert es_resultado_negativo(-5, 0) is False
-    #assert es_resultado_negativo(0, -7) is False
+    assert es_resultado_negativo(-5, 0) is False
+    assert es_resultado_negativo(0, -7) is False
     assert es_resultado_negativo(0, 0) is False
 
     # Casos donde el resultado debe ser negativo
