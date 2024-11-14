@@ -12,15 +12,15 @@ MENSAJES_ERROR = (
     "Se produjo un error: {error}"
 )
 
-# Operadores soportados por la calculadora
-OPERADORES = ('+', '-', 'x', '*', '/', ':', '**', 'exp')
-
-# No era necesario realizar estas constantes, pero os la propongo en mi solución
-OPERADORES_SUMAR = ('+')
-OPERADORES_RESTAR = ('-')
+# Operadores soportados por cada operación
+OPERADORES_SUMAR = ('+',)
+OPERADORES_RESTAR = ('-',)
 OPERADORES_MULTIPLICAR = ('x', '*')
 OPERADORES_DIVIDIR = ('/', ':')
 OPERADORES_POTENCIA = ('**', 'exp')
+
+# Operadores soportados por la calculadora
+OPERADORES = OPERADORES_SUMAR + OPERADORES_RESTAR + OPERADORES_MULTIPLICAR + OPERADORES_DIVIDIR + OPERADORES_POTENCIA
 
 
 
