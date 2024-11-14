@@ -2,17 +2,23 @@
 import os
 import random
 
+# Configuración del juego...
+CONFIG = {
+    "bombo": {
+        "min": 1,       # Número mínimo para el bombo
+        "max": 50,      # Número máximo para el bombo
+        "total": 5      # Total de números seleccionados en el bombo
+    },
+    "estrellas": {
+        "min": 1,       # Número mínimo para las estrellas
+        "max": 12,      # Número máximo para las estrellas
+        "total": 2      # Total de estrellas seleccionadas
+    }
+}
 
-BOMBO_MIN = 1
-BOMBO_MAX = 50
-BOMBO_TOTAL = 5
+BOMBO = tuple(range(CONFIG["bombo"]["min"], CONFIG["bombo"]["max"] + 1))
+ESTRELLAS = tuple(range(CONFIG["estrellas"]["min"], CONFIG["estrellas"]["max"] + 1))
 
-ESTRELLAS_MIN = 1
-ESTRELLAS_MAX = 12
-ESTRELLAS_TOTAL = 2
-
-BOMBO = tuple(range(BOMBO_MIN, BOMBO_MAX + 1))
-ESTRELLAS = tuple(range(ESTRELLAS_MIN, ESTRELLAS_MAX + 1))
 
 
 def limpiar_pantalla():
@@ -60,8 +66,8 @@ def sacar_bolas(bombo: tuple, total: int) -> set:
 
 
 def generar_euromillon(premiados: set, estrellas: set):
-    premiados.update(sacar_bolas(BOMBO, BOMBO_TOTAL))
-    estrellas.update(sacar_bolas(ESTRELLAS, ESTRELLAS_TOTAL))
+    premiados.update(sacar_bolas(BOMBO, CONFIG["bombo"]["total"]))
+    estrellas.update(sacar_bolas(ESTRELLAS, CONFIG["estrellas"]["total"]))
     
 
 def obtener_aciertos(jugados: set, premiados: set) -> int:
@@ -72,9 +78,7 @@ def obtener_aciertos(jugados: set, premiados: set) -> int:
 def mostrar_resultados(numeros_premiados: set, 
                        estrellas_premiadas: set, 
                        numeros: set, 
-                       estrellas: set, 
-                       aciertos_numeros: int, 
-                       aciertos_estrellas: int):
+                       estrellas: set):
     limpiar_pantalla()
     print("RESULTADOS DEL EUROMILLÓN\n-------------------------\n\n")
 
@@ -99,14 +103,14 @@ def main():
     print("JUEGA AL EUROMILLÓN\n-------------------\n\n")
 
     # Preguntar cuantos números y estrellas puede el jugador introducir...
-    total_numeros = preguntar_total("números", BOMBO_TOTAL)
-    total_estrellas = preguntar_total("estrellas", ESTRELLAS_TOTAL)
+    total_numeros = preguntar_total("números", CONFIG["bombo"]["total"])
+    total_estrellas = preguntar_total("estrellas", CONFIG["estrellas"]["total"])
 
     # Pedir los números y estrellas del euromillón...
-    print(f"\n### Seleccione {total_numeros} números del {BOMBO_MIN} al {BOMBO_MAX} ###")
-    numeros = solicitar_numeros("el número", total_numeros, BOMBO_MIN, BOMBO_MAX)
-    print(f"\n### Seleccione {total_numeros} estrellas del {ESTRELLAS_MIN} al {ESTRELLAS_MAX} ###")
-    estrellas = solicitar_numeros("la estrella", total_estrellas, ESTRELLAS_MIN, ESTRELLAS_MAX)
+    print(f"\n### Seleccione {total_numeros} números del {CONFIG["bombo"]["min"]} al {CONFIG["bombo"]["max"]} ###")
+    numeros = solicitar_numeros("el número", total_numeros, CONFIG["bombo"]["min"], CONFIG["bombo"]["max"])
+    print(f"\n### Seleccione {total_numeros} estrellas del {CONFIG["estrellas"]["min"]} al {CONFIG["estrellas"]["max"]} ###")
+    estrellas = solicitar_numeros("la estrella", total_estrellas, CONFIG["estrellas"]["min"], CONFIG["estrellas"]["max"])
 
     # Sacar de los bombos los números y las estrellas premiadas...
     numeros_premiados = set()
