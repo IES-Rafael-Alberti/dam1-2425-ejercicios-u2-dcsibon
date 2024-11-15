@@ -9,6 +9,10 @@ def main():
     mi_conjunto = {"perro", "gato", "loro"}
     mi_diccionario = {"clave1": "valor1", "clave2": "valor2"}
 
+    print(id(mi_conjunto))
+
+    return
+
     print(", ".join(mi_lista))                      # "a, b, c"
     print(" | ".join(mi_tupla))                     # "x | y | z"
     print(" - ".join(mi_conjunto))                  # "perro - gato - loro" (orden no garantizado)
