@@ -13,12 +13,12 @@ MENSAJES_ERROR = (
 )
 
 # Operadores soportados por la calculadora
-OPERADORES = ('+', '-', 'x', '*', '/', ':', '**', 'exp')
+OPERADORES = ('+', '-', 'x', '*', '/', ':', '**', 'exp', '^')
 OPERADORES_SUMAR = ('+')
 OPERADORES_RESTAR = ('-')
 OPERADORES_MULTIPLICAR = ('x', '*')
 OPERADORES_DIVIDIR = ('/', ':')
-OPERADORES_POTENCIA = ('**', 'exp')
+OPERADORES_POTENCIA = ('**', 'exp', '^')
 
 
 
@@ -49,7 +49,7 @@ def mostrar_error(indice_error: int, msj_error = None):
     """
     try:
         if msj_error != None:
-            print(f"\n*ERROR* {MENSAJES_ERROR[indice_error].format(error = msj_error)}\n")
+            print(f"\n*ERROR* {"Problemas al intentar limpiar la pantalla {}".format(msj_error)}\n")
         else:
             print(f"\n*ERROR* {MENSAJES_ERROR[indice_error]}\n")
     except IndexError:
@@ -96,7 +96,15 @@ def es_resultado_negativo(num1: float, num2: float) -> bool:
         bool: `True` si el resultado debería ser negativo, `False` en caso contrario. 
               Valor por defecto es `False`.
     """
-    return (num1 != 0) and (num2 != 0) and (num1 < 0) != (num2 < 0)
+    if (num1 < 0 and num2 > 0) or (num2 < 0 and num1 > 0):
+        resultado = True
+    else:
+        resultado = False
+
+    return resultado
+    
+    
+    #return (num1 != 0) and (num2 != 0) and (num1 < 0) != (num2 < 0)
 
 
 def multiplicar(num1: float, num2: float) -> int:
@@ -116,7 +124,7 @@ def multiplicar(num1: float, num2: float) -> int:
     resultado_negativo = es_resultado_negativo(num1, num2)
 
     # Redondeo a enteros
-    num1 = round(abs(num1))
+    num1 = int(round(abs(num1), 0))
     num2 = round(abs(num2))
 
     # Inicializa el resultado a 0, por si alguno de los números es 0
@@ -128,20 +136,20 @@ def multiplicar(num1: float, num2: float) -> int:
         num_rango = min(num1, num2)
 
         # Calcula el resultado usando solo sumas
-        for _ in range(num_rango):
-            resultado += num_a_sumar
+        # for _ in range(num_rango):
+        #     resultado += num_a_sumar
 
         # También podríamos haber utilizado la función sumar:
-        # for _ in range(num_rango):
-        #     resultado = sumar(resultado, num_a_sumar)
+        for _ in range(num_rango):
+             resultado = sumar(resultado, num_a_sumar)
 
         # Ajuste de signo si el resultado es negativo
-        if resultado_negativo:
-            resultado = 0 - resultado
+        # if resultado_negativo:
+        #     resultado = 0 - resultado
 
         # También podríamos haber utilizado la función restar:
-        # if resultado_negativo:
-        #     resultado = restar(0, resultado)
+        if resultado_negativo:
+             resultado = restar(0, resultado)
 
     return resultado
    
@@ -182,9 +190,9 @@ def dividir(num1: float, num2: float) -> int:
             resultado += 1
 
         # También podríamos haber utilizado la función restar
-        # while num1 >= num2:
-        #     num1 = restar(num1, num2)
-        #     resultado = sumar(resultado, 1)
+        while num1 >= num2:
+            num1 = restar(num1, num2)
+            resultado = sumar(resultado, 1)
 
         # Ajuste de signo si el resultado es negativo
         if resultado_negativo:
@@ -259,7 +267,7 @@ def calcular_operacion(num1: float, num2: float, operador: str) -> float:
         float: Resultado de la operación.
 
     Raises:
-        ZeroDivisionError: Si el divisor es cero.
+        ValueError: Si el operador no existe.
     """    
     if operador in OPERADORES_MULTIPLICAR:
         resultado = multiplicar(num1, num2)
