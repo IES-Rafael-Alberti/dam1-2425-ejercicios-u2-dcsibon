@@ -187,6 +187,7 @@ def main():
     # Pedir los números y estrellas del euromillón...
     print(f"\n### Seleccione {total_numeros} números del {CONFIG["bombo"]["min"]} al {CONFIG["bombo"]["max"]} ###")
     numeros = solicitar_numeros("el número", total_numeros, CONFIG["bombo"]["min"], CONFIG["bombo"]["max"])
+    
     print(f"\n### Seleccione {total_estrellas} estrellas del {CONFIG["estrellas"]["min"]} al {CONFIG["estrellas"]["max"]} ###")
     estrellas = solicitar_numeros("la estrella", total_estrellas, CONFIG["estrellas"]["min"], CONFIG["estrellas"]["max"])
 
