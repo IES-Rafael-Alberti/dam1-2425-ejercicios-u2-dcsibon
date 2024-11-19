@@ -18,6 +18,35 @@ def pausa():
 
 
 def main():
+    limpiar_pantalla()
+
+    a = 7
+
+    print(f"{a:04d}")
+
+    return
+
+    mi_lista1 = [1, 2, (1, 2), 4]
+
+    mi_lista1[2].append(22)
+
+    res = ""
+    cont = 0
+    while cont < len(mi_lista1):
+        res += f"{mi_lista1[cont]}, "
+        cont += 1
+    print(res[:-2])
+
+
+    print(mi_lista1)
+
+
+
+
+
+    return
+
+
     asignaturas = ["Mates", "Lengua", "Inglés", "Física", "Química", "Historia"]
 
     limpiar_pantalla()
