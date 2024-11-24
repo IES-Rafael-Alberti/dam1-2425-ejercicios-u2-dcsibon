@@ -149,12 +149,10 @@ def solicitar_numeros(desc: str, total: int, min: int, max: int)->set:
 
 
 
-def mostrar_resultados(aciertos_numeros: int, aciertos_estrellas: int,premiados: set,estrellas: set,numeros_jugados: set,estrellas_jugadas: set):
+def mostrar_resultados(premiados: set,estrellas: set,numeros_jugados: set,estrellas_jugadas: set):
     """
     Muestra los resultados del euromillón. 
     Args:
-    aciertos_numeros (set): número de aciertos.
-    aciertos_estrellas(set): número de aciertos de estrellas.
     premiados(set): conjunto de números generados al azar.
     estrellas(set): conjunto de estrellas generadas al azar.
     numeros_jugados(set): conjunto de números introducidos por el usuario.
@@ -165,6 +163,10 @@ def mostrar_resultados(aciertos_numeros: int, aciertos_estrellas: int,premiados:
     print(f"Números premiados {premiados}\n Estrellas premiadas = {estrellas}\n")
 
     print(f"Números jugados = {numeros_jugados}\n Estrellas jugadas = {estrellas_jugadas}\n")
+
+    aciertos_numeros = obtener_aciertos(numeros_jugados,premiados)
+
+    aciertos_estrellas = obtener_aciertos(estrellas_jugadas,estrellas)    
 
     print(f"Total de números acertados = {aciertos_numeros}\n Total de estrellas acertadas = {aciertos_estrellas}")
 
@@ -192,12 +194,8 @@ def main():
     limpiar_pantalla()
 
     generar_euromillon(premiados,estrellas)
-    
-    aciertos_numeros = obtener_aciertos(numeros_jugados,premiados)
-
-    aciertos_estrellas = obtener_aciertos(estrellas_jugadas,estrellas)
-    
-    mostrar_resultados(aciertos_numeros,aciertos_estrellas,premiados,estrellas,numeros_jugados,estrellas_jugadas)
+       
+    mostrar_resultados(premiados,estrellas,numeros_jugados,estrellas_jugadas)
 
 
 
