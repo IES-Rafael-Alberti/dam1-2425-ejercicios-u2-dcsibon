@@ -78,7 +78,7 @@ def solicitar_numeros(desc: str, total: int, min: int, max: int) -> set:
     numeros = set()
     while len(numeros) < total:
         numeros.add(pedir_numero(f"Dame {desc} #{len(numeros) + 1}#>> ", min, max))
-        print(f"{sorted(numeros) if len(numeros) > 0 else []}")
+        print(f"{sorted(numeros)}")
 
     return numeros
 
